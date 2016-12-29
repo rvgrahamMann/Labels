@@ -250,7 +250,7 @@ namespace MannLabels.Controllers
             DateTime dt = (DateTime)dat.SellOrUseBy;
             string shift = dat.Shift;
             string fullItem = dat.Id.ToString().PadLeft(5, '0');
-            bool incrementJulian = dat.JulianPlusOne;
+            bool incrementJulian = dat.JulianPlusOne; //this is new
             string fakeJulian = incrementJulian ? (DateTime.Today.DayOfYear + 1).ToString() : DateTime.Today.DayOfYear.ToString();
 
             using (JDE_PRODUCTIONEntities dbJDcn = new JDE_PRODUCTIONEntities())
