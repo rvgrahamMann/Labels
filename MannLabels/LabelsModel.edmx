@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LabelPrintModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LabelFields">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LabelID" Type="int" Nullable="false" />
+          <Property Name="FieldName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="FieldOrdinal" Type="int" Nullable="false" />
+          <Property Name="FieldType" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LabelJobs">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Item" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="FriendlyName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="btwFile" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserList">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Logon" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="Printer" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_LabelFields_LabelJobs">
+          <End Role="LabelJobs" Type="Self.LabelJobs" Multiplicity="1" />
+          <End Role="LabelFields" Type="Self.LabelFields" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LabelJobs">
+              <PropertyRef Name="idx" />
+            </Principal>
+            <Dependent Role="LabelFields">
+              <PropertyRef Name="LabelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LabelPrintModelStoreContainer">
+          <EntitySet Name="LabelFields" EntityType="Self.LabelFields" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LabelJobs" EntityType="Self.LabelJobs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserList" EntityType="Self.UserList" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_LabelFields_LabelJobs" Association="Self.FK_LabelFields_LabelJobs">
+            <End Role="LabelJobs" EntitySet="LabelJobs" />
+            <End Role="LabelFields" EntitySet="LabelFields" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LabelPrintModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="LabelField">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LabelID" Type="Int32" Nullable="false" />
+          <Property Name="FieldName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FieldOrdinal" Type="Int32" Nullable="false" />
+          <Property Name="FieldType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="LabelJob" Relationship="Self.FK_LabelFields_LabelJobs" FromRole="LabelFields" ToRole="LabelJobs" />
+        </EntityType>
+        <EntityType Name="LabelJob">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Item" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FriendlyName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="btwFile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="LabelFields" Relationship="Self.FK_LabelFields_LabelJobs" FromRole="LabelJobs" ToRole="LabelFields" />
+        </EntityType>
+        <EntityType Name="UserList">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Logon" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Printer" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_LabelFields_LabelJobs">
+          <End Role="LabelJobs" Type="Self.LabelJob" Multiplicity="1" />
+          <End Role="LabelFields" Type="Self.LabelField" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LabelJobs">
+              <PropertyRef Name="idx" />
+            </Principal>
+            <Dependent Role="LabelFields">
+              <PropertyRef Name="LabelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LabelPrintEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LabelFields" EntityType="Self.LabelField" />
+          <EntitySet Name="LabelJobs" EntityType="Self.LabelJob" />
+          <EntitySet Name="UserLists" EntityType="Self.UserList" />
+          <AssociationSet Name="FK_LabelFields_LabelJobs" Association="Self.FK_LabelFields_LabelJobs">
+            <End Role="LabelJobs" EntitySet="LabelJobs" />
+            <End Role="LabelFields" EntitySet="LabelFields" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LabelPrintModelStoreContainer" CdmEntityContainer="LabelPrintEntities">
+          <EntitySetMapping Name="LabelFields">
+            <EntityTypeMapping TypeName="LabelPrintModel.LabelField">
+              <MappingFragment StoreEntitySet="LabelFields">
+                <ScalarProperty Name="idx" ColumnName="idx" />
+                <ScalarProperty Name="LabelID" ColumnName="LabelID" />
+                <ScalarProperty Name="FieldName" ColumnName="FieldName" />
+                <ScalarProperty Name="FieldOrdinal" ColumnName="FieldOrdinal" />
+                <ScalarProperty Name="FieldType" ColumnName="FieldType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LabelJobs">
+            <EntityTypeMapping TypeName="LabelPrintModel.LabelJob">
+              <MappingFragment StoreEntitySet="LabelJobs">
+                <ScalarProperty Name="idx" ColumnName="idx" />
+                <ScalarProperty Name="Item" ColumnName="Item" />
+                <ScalarProperty Name="FriendlyName" ColumnName="FriendlyName" />
+                <ScalarProperty Name="btwFile" ColumnName="btwFile" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLists">
+            <EntityTypeMapping TypeName="LabelPrintModel.UserList">
+              <MappingFragment StoreEntitySet="UserList">
+                <ScalarProperty Name="idx" ColumnName="idx" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Logon" ColumnName="Logon" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Printer" ColumnName="Printer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

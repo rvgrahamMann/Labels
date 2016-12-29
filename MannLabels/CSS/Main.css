@@ -1,0 +1,311 @@
+﻿*
+{
+    margin: 0px;
+    padding: 0px;
+    border-width: 0px;
+    font-family: 'Segoe UI', Calibri, Sans-Serif;
+}
+html, body, form
+{
+    height: 100%;
+    margin: 0px;
+    background-image: none;
+    background-color: #ebf0f3; /*#e6e5e2;ecebe9*/
+    border: none;
+}
+img
+{
+    border: 0;
+}
+body a:link, body a:visited
+{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+.mainCaption {
+    font-family: 'Copperplate Gothic', Calibri, Sans-Serif;
+    color: gainsboro;
+    font-size: 24px;
+    font-weight: bold;
+    font-style: italic;
+    font-variant: small-caps;
+}
+.fixed-nav 
+{
+	position: fixed !important;
+    background-color: #1b397a;
+    width: 100%;
+    min-width: 1000px;
+	z-index: 2000;
+    border-bottom: 4px solid #8f8028;
+}
+.fixed-nav-dev {
+    position: fixed !important;
+    background-color: red;
+    width: 100%;
+    min-width: 1000px;
+    z-index: 2000;
+    border-bottom: 4px solid #8f8028;
+}
+.menu-main-nav
+{
+    width: 100%;
+    white-space: nowrap;
+}
+.tdRights{
+    text-align: right;
+    padding-right: 3px;
+}
+.tdLefts{
+    text-align: left;
+}
+.k-textbox.greyedOut, .k-textbox.greyedOut:hover {
+    background-color: #e9e9e9;
+    cursor: default;
+}
+.divWrapperDsbld
+{
+    border: 0px;
+    margin-top: 15px;
+    margin-left: -5px;
+    padding-right: 14px;
+    height: 30px ;
+    display: inline-block;
+}
+.divWrapperDsbld a
+    {
+        display: inline;
+        color: darkgray !important;
+        text-decoration: none;
+        margin: 0px 10px 0px 10px;
+        font-family: 'Segoe UI', Calibri, Sans-Serif;
+        font-weight: bold;
+        font-size: 18px;
+        font-variant: small-caps;
+        padding: 4px 0px 5px 0px;
+        cursor: default;
+    }
+.divWrapper
+{
+    border: 0px;
+    margin-top: 15px;
+    margin-left: -5px;
+    padding-right: 14px;
+    height: 30px ;
+    display: inline-block;
+}
+    .divWrapper:hover
+    {
+        background-color: #b9d2df;
+    }
+    .divWrapper:hover a
+    {
+        color: #333 !important;
+    }
+    .divWrapper a
+    {
+        display: inline;
+        color: gainsboro !important;
+        text-decoration: none;
+        margin: 0px 10px 0px 10px;
+        font-family: 'Segoe UI', Calibri, Sans-Serif;
+        font-weight: bold;
+        font-size: 18px;
+        font-variant: small-caps;
+        padding: 4px 0px 5px 0px;
+    }
+        .divWrapper a:hover
+        {
+            background-color: transparent;
+            color: #333 !important;
+        }
+        .divWrapper a:active
+        {
+            background-color: transparent;
+            color: #333 !important;
+        }
+.defaultCursor
+{
+    cursor: default;
+}
+.sub-menu
+{
+    border-top: 4px solid #8f8028;
+    border-bottom: 2px solid #777;
+    display: none;
+    background-color: #b9d2df;
+    color: #f5f5f5 !important;
+    font-family: 'Segoe UI', Calibri, Sans-Serif;
+    font-weight: bold;
+    font-variant: small-caps;
+    position: absolute;
+    padding: 0px;
+    top: 45px;
+}
+    .sub-menu li {
+        list-style-type: none;
+        padding-right: 14px;
+        padding-left: 14px;
+        margin: 0px 0px 3px 0px;
+        cursor: pointer;
+        color: #333;
+        font-size: 16px;
+        font-weight: bolder;
+        font-stretch: wider;
+    }
+
+    .sub-menu li.liEnabled {
+        list-style-type: none;
+        padding-right: 14px;
+        padding-left: 14px;
+        margin: 0px 0px 3px 0px;
+        cursor: pointer;
+        color: #333  ;
+        font-size: 16px;
+        font-weight: bolder;
+        font-stretch: wider;
+    }
+    .sub-menu li.liDisabled {
+        cursor: default;
+        list-style-type: none;
+        padding-right: 14px;
+        padding-left: 14px;
+        margin: 0px 0px 3px 0px;
+        color: #bdbdbd;
+        font-size: 16px;
+        font-weight: bolder;
+        font-stretch: wider;
+    }
+        .sub-menu li.liDisabled:hover
+        {
+            color: #bdbdbd !important;
+        }
+        .sub-menu li.liEnabled:hover {
+            background-color: #1b397a;
+            color: gainsboro;
+        }
+#divMainContent
+{
+    position: relative;
+    top: 70px;
+    margin-left: 30px;
+    margin-right: 30px;
+    padding-bottom: 50px;
+}
+.divTableContent
+{
+    position: relative;
+    top: 10px;
+    margin-left: 10px;
+    margin-right: 45px;
+}
+.notfirstbutton{
+    margin-left: 12px;
+}
+.divSectionHeader
+{
+    position: relative;
+    left: 175px;
+    padding: 10px;
+    background-color: gainsboro;
+    width: 100%;
+}
+.txWidest
+{
+    width: 400px;
+    margin-top: 4px;
+}
+.textBG
+{
+    background-color: #eee;
+    border: 1px solid #777;
+}
+.lbAbove
+{
+    font-weight: bold;
+}
+.tblBasics{
+    border-collapse: collapse;
+}
+.isInUse, .isNeutral, .isNotInUse {
+    background: transparent url('../Images/goodbad.png') repeat scroll 0px 0px;
+	display: inline-block;
+    position: relative;
+    top: 3px;
+	width: 35px;
+	height: 32px;
+	cursor: default;
+	outline: none;
+}
+.isNeutral{
+	background-position: 0 0;
+	width: 35px;
+	height: 32px;
+}
+.isNotInUse{
+	background-position: -68px 0;
+	width: 35px;
+	height: 32px;
+}
+.isInUse{
+	background-position: -34px 0;
+	width: 35px;
+	height: 32px;
+}
+.readonlyStyle {
+    background-color: #ededed !important;
+    cursor: default;
+}
+.myCheckboxUN, .myCheckbox{
+    background: transparent url('../Images/spritesGrey.png') repeat scroll 0px 0px;
+	display: block;
+    position: relative;
+    left: 30px;
+	width: 32px;
+	height: 32px;
+	cursor: default;
+	outline: none;
+}
+
+.myCheckboxUN{
+	background-position: 0 0;
+	width: 32px;
+	height: 32px;
+}
+
+.myCheckbox{
+	background-position: -34px 0;
+	width: 32px;
+	height: 32px;
+}
+.uncheckedLeft, .uncheckedLeft{
+    background: transparent url('../Images/sprites.png') repeat scroll 0px 0px;
+	display: block;
+    position: relative;
+    top: -3px;
+	width: 32px;
+	height: 32px;
+	cursor: default;
+	outline: none;
+}
+.uncheckedLeft{
+	background-position: 0 0;
+	width: 32px;
+	height: 32px;
+}
+
+.checkedLeft {
+    background-position: -34px 0;
+    width: 32px;
+    height: 32px;
+}
+.divLegend{
+    width: 100%;
+    position: absolute;
+    top: 42px;
+    height: 22px !important;
+    background-color: #ebf0f3;
+    border-bottom: 1px solid black;
+}
+

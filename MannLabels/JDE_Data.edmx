@@ -1,0 +1,433 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="JDE_PRODUCTIONModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="F0005">
+          <Key>
+            <PropertyRef Name="DRSY" />
+            <PropertyRef Name="DRRT" />
+            <PropertyRef Name="DRKY" />
+          </Key>
+          <Property Name="DRSY" Type="nchar" MaxLength="4" Nullable="false" />
+          <Property Name="DRRT" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="DRKY" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="DRDL01" Type="nchar" MaxLength="30" />
+          <Property Name="DRDL02" Type="nchar" MaxLength="30" />
+          <Property Name="DRSPHD" Type="nchar" MaxLength="10" />
+          <Property Name="DRUDCO" Type="nchar" MaxLength="1" />
+          <Property Name="DRHRDC" Type="nchar" MaxLength="1" />
+          <Property Name="DRUSER" Type="nchar" MaxLength="10" />
+          <Property Name="DRPID" Type="nchar" MaxLength="10" />
+          <Property Name="DRUPMJ" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="DRJOBN" Type="nchar" MaxLength="10" />
+          <Property Name="DRUPMT" Type="float" />
+        </EntityType>
+        <EntityType Name="F4101">
+          <Key>
+            <PropertyRef Name="IMITM" />
+          </Key>
+          <Property Name="IMITM" Type="float" Nullable="false" />
+          <Property Name="IMLITM" Type="nchar" MaxLength="25" />
+          <Property Name="IMAITM" Type="nchar" MaxLength="25" />
+          <Property Name="IMDSC1" Type="nchar" MaxLength="30" />
+          <Property Name="IMDSC2" Type="nchar" MaxLength="30" />
+          <Property Name="IMSRTX" Type="nchar" MaxLength="30" />
+          <Property Name="IMALN" Type="nchar" MaxLength="30" />
+          <Property Name="IMSRP1" Type="nchar" MaxLength="3" />
+          <Property Name="IMSRP2" Type="nchar" MaxLength="3" />
+          <Property Name="IMSRP3" Type="nchar" MaxLength="3" />
+          <Property Name="IMSRP4" Type="nchar" MaxLength="3" />
+          <Property Name="IMSRP5" Type="nchar" MaxLength="3" />
+          <Property Name="IMSRP6" Type="nchar" MaxLength="6" />
+          <Property Name="IMSRP7" Type="nchar" MaxLength="6" />
+          <Property Name="IMSRP8" Type="nchar" MaxLength="6" />
+          <Property Name="IMSRP9" Type="nchar" MaxLength="6" />
+          <Property Name="IMSRP0" Type="nchar" MaxLength="6" />
+          <Property Name="IMPRP1" Type="nchar" MaxLength="3" />
+          <Property Name="IMPRP2" Type="nchar" MaxLength="3" />
+          <Property Name="IMPRP3" Type="nchar" MaxLength="3" />
+          <Property Name="IMPRP4" Type="nchar" MaxLength="3" />
+          <Property Name="IMPRP5" Type="nchar" MaxLength="3" />
+          <Property Name="IMPRP6" Type="nchar" MaxLength="6" />
+          <Property Name="IMPRP7" Type="nchar" MaxLength="6" />
+          <Property Name="IMPRP8" Type="nchar" MaxLength="6" />
+          <Property Name="IMPRP9" Type="nchar" MaxLength="6" />
+          <Property Name="IMPRP0" Type="nchar" MaxLength="6" />
+          <Property Name="IMCDCD" Type="nchar" MaxLength="15" />
+          <Property Name="IMPDGR" Type="nchar" MaxLength="3" />
+          <Property Name="IMDSGP" Type="nchar" MaxLength="3" />
+          <Property Name="IMPRGR" Type="nchar" MaxLength="8" />
+          <Property Name="IMRPRC" Type="nchar" MaxLength="8" />
+          <Property Name="IMORPR" Type="nchar" MaxLength="8" />
+          <Property Name="IMBUYR" Type="float" />
+          <Property Name="IMDRAW" Type="nchar" MaxLength="20" />
+          <Property Name="IMRVNO" Type="nchar" MaxLength="2" />
+          <Property Name="IMDSZE" Type="nchar" MaxLength="1" />
+          <Property Name="IMVCUD" Type="float" />
+          <Property Name="IMCARS" Type="float" />
+          <Property Name="IMCARP" Type="float" />
+          <Property Name="IMSHCN" Type="nchar" MaxLength="3" />
+          <Property Name="IMSHCM" Type="nchar" MaxLength="3" />
+          <Property Name="IMUOM1" Type="nchar" MaxLength="2" />
+          <Property Name="IMUOM2" Type="nchar" MaxLength="2" />
+          <Property Name="IMUOM3" Type="nchar" MaxLength="2" />
+          <Property Name="IMUOM4" Type="nchar" MaxLength="2" />
+          <Property Name="IMUOM6" Type="nchar" MaxLength="2" />
+          <Property Name="IMUOM8" Type="nchar" MaxLength="2" />
+          <Property Name="IMUOM9" Type="nchar" MaxLength="2" />
+          <Property Name="IMUWUM" Type="nchar" MaxLength="2" />
+          <Property Name="IMUVM1" Type="nchar" MaxLength="2" />
+          <Property Name="IMSUTM" Type="nchar" MaxLength="2" />
+          <Property Name="IMUMVW" Type="nchar" MaxLength="1" />
+          <Property Name="IMCYCL" Type="nchar" MaxLength="3" />
+          <Property Name="IMGLPT" Type="nchar" MaxLength="4" />
+          <Property Name="IMPLEV" Type="nchar" MaxLength="1" />
+          <Property Name="IMPPLV" Type="nchar" MaxLength="1" />
+          <Property Name="IMCLEV" Type="nchar" MaxLength="1" />
+          <Property Name="IMPRPO" Type="nchar" MaxLength="1" />
+          <Property Name="IMCKAV" Type="nchar" MaxLength="1" />
+          <Property Name="IMBPFG" Type="nchar" MaxLength="1" />
+          <Property Name="IMSRCE" Type="nchar" MaxLength="1" />
+          <Property Name="IMOT1Y" Type="nchar" MaxLength="1" />
+          <Property Name="IMOT2Y" Type="nchar" MaxLength="1" />
+          <Property Name="IMSTDP" Type="float" />
+          <Property Name="IMFRMP" Type="float" />
+          <Property Name="IMTHRP" Type="float" />
+          <Property Name="IMSTDG" Type="nchar" MaxLength="3" />
+          <Property Name="IMFRGD" Type="nchar" MaxLength="3" />
+          <Property Name="IMTHGD" Type="nchar" MaxLength="3" />
+          <Property Name="IMCOTY" Type="nchar" MaxLength="1" />
+          <Property Name="IMSTKT" Type="nchar" MaxLength="1" />
+          <Property Name="IMLNTY" Type="nchar" MaxLength="2" />
+          <Property Name="IMCONT" Type="nchar" MaxLength="1" />
+          <Property Name="IMBACK" Type="nchar" MaxLength="1" />
+          <Property Name="IMIFLA" Type="nchar" MaxLength="2" />
+          <Property Name="IMTFLA" Type="nchar" MaxLength="2" />
+          <Property Name="IMINMG" Type="nchar" MaxLength="10" />
+          <Property Name="IMABCS" Type="nchar" MaxLength="1" />
+          <Property Name="IMABCM" Type="nchar" MaxLength="1" />
+          <Property Name="IMABCI" Type="nchar" MaxLength="1" />
+          <Property Name="IMOVR" Type="nchar" MaxLength="1" />
+          <Property Name="IMWARR" Type="nchar" MaxLength="8" />
+          <Property Name="IMCMCG" Type="nchar" MaxLength="8" />
+          <Property Name="IMSRNR" Type="nchar" MaxLength="1" />
+          <Property Name="IMPMTH" Type="nchar" MaxLength="1" />
+          <Property Name="IMFIFO" Type="nchar" MaxLength="1" />
+          <Property Name="IMLOTS" Type="nchar" MaxLength="1" />
+          <Property Name="IMSLD" Type="float" />
+          <Property Name="IMANPL" Type="float" />
+          <Property Name="IMMPST" Type="nchar" MaxLength="1" />
+          <Property Name="IMPCTM" Type="float" />
+          <Property Name="IMMMPC" Type="float" />
+          <Property Name="IMPTSC" Type="nchar" MaxLength="2" />
+          <Property Name="IMSNS" Type="nchar" MaxLength="1" />
+          <Property Name="IMLTLV" Type="float" />
+          <Property Name="IMLTMF" Type="float" />
+          <Property Name="IMLTCM" Type="float" />
+          <Property Name="IMOPC" Type="nchar" MaxLength="1" />
+          <Property Name="IMOPV" Type="float" />
+          <Property Name="IMACQ" Type="float" />
+          <Property Name="IMMLQ" Type="float" />
+          <Property Name="IMLTPU" Type="float" />
+          <Property Name="IMMPSP" Type="nchar" MaxLength="1" />
+          <Property Name="IMMRPP" Type="nchar" MaxLength="1" />
+          <Property Name="IMITC" Type="nchar" MaxLength="1" />
+          <Property Name="IMORDW" Type="nchar" MaxLength="1" />
+          <Property Name="IMMTF1" Type="float" />
+          <Property Name="IMMTF2" Type="float" />
+          <Property Name="IMMTF3" Type="float" />
+          <Property Name="IMMTF4" Type="float" />
+          <Property Name="IMMTF5" Type="float" />
+          <Property Name="IMEXPD" Type="float" />
+          <Property Name="IMDEFD" Type="float" />
+          <Property Name="IMSFLT" Type="float" />
+          <Property Name="IMMAKE" Type="nchar" MaxLength="1" />
+          <Property Name="IMCOBY" Type="nchar" MaxLength="1" />
+          <Property Name="IMLLX" Type="float" />
+          <Property Name="IMCMGL" Type="nchar" MaxLength="1" />
+          <Property Name="IMCOMH" Type="float" />
+          <Property Name="IMURCD" Type="nchar" MaxLength="2" />
+          <Property Name="IMURDT" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="IMURAT" Type="float" />
+          <Property Name="IMURAB" Type="float" />
+          <Property Name="IMURRF" Type="nchar" MaxLength="15" />
+          <Property Name="IMUSER" Type="nchar" MaxLength="10" />
+          <Property Name="IMPID" Type="nchar" MaxLength="10" />
+          <Property Name="IMJOBN" Type="nchar" MaxLength="10" />
+          <Property Name="IMUPMJ" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="IMTDAY" Type="float" />
+          <Property Name="IMUPCN" Type="nchar" MaxLength="13" />
+          <Property Name="IMSCC0" Type="nchar" MaxLength="14" />
+          <Property Name="IMUMUP" Type="nchar" MaxLength="2" />
+          <Property Name="IMUMDF" Type="nchar" MaxLength="2" />
+          <Property Name="IMUMS0" Type="nchar" MaxLength="2" />
+          <Property Name="IMUMS1" Type="nchar" MaxLength="2" />
+          <Property Name="IMUMS2" Type="nchar" MaxLength="2" />
+          <Property Name="IMUMS3" Type="nchar" MaxLength="2" />
+          <Property Name="IMUMS4" Type="nchar" MaxLength="2" />
+          <Property Name="IMUMS5" Type="nchar" MaxLength="2" />
+          <Property Name="IMUMS6" Type="nchar" MaxLength="2" />
+          <Property Name="IMUMS7" Type="nchar" MaxLength="2" />
+          <Property Name="IMUMS8" Type="nchar" MaxLength="2" />
+          <Property Name="IMPOC" Type="nchar" MaxLength="1" />
+          <Property Name="IMAVRT" Type="float" />
+          <Property Name="IMEQTY" Type="nchar" MaxLength="5" />
+          <Property Name="IMWTRQ" Type="nchar" MaxLength="1" />
+          <Property Name="IMTMPL" Type="nchar" MaxLength="20" />
+          <Property Name="IMSEG1" Type="nchar" MaxLength="10" />
+          <Property Name="IMSEG2" Type="nchar" MaxLength="10" />
+          <Property Name="IMSEG3" Type="nchar" MaxLength="10" />
+          <Property Name="IMSEG4" Type="nchar" MaxLength="10" />
+          <Property Name="IMSEG5" Type="nchar" MaxLength="10" />
+          <Property Name="IMSEG6" Type="nchar" MaxLength="10" />
+          <Property Name="IMSEG7" Type="nchar" MaxLength="10" />
+          <Property Name="IMSEG8" Type="nchar" MaxLength="10" />
+          <Property Name="IMSEG9" Type="nchar" MaxLength="10" />
+          <Property Name="IMSEG0" Type="nchar" MaxLength="10" />
+          <Property Name="IMMIC" Type="nchar" MaxLength="1" />
+          <Property Name="IMAING" Type="nchar" MaxLength="1" />
+          <Property Name="IMBBDD" Type="float" />
+          <Property Name="IMCMDM" Type="nchar" MaxLength="1" />
+          <Property Name="IMLECM" Type="nchar" MaxLength="1" />
+          <Property Name="IMLEDD" Type="float" />
+          <Property Name="IMPEFD" Type="float" />
+          <Property Name="IMSBDD" Type="float" />
+          <Property Name="IMU1DD" Type="float" />
+          <Property Name="IMU2DD" Type="float" />
+          <Property Name="IMU3DD" Type="float" />
+          <Property Name="IMU4DD" Type="float" />
+          <Property Name="IMU5DD" Type="float" />
+          <Property Name="IMDLTL" Type="float" />
+          <Property Name="IMDPPO" Type="nchar" MaxLength="1" />
+          <Property Name="IMDUAL" Type="nchar" MaxLength="1" />
+          <Property Name="IMXDCK" Type="nchar" MaxLength="1" />
+          <Property Name="IMLAF" Type="nchar" MaxLength="1" />
+          <Property Name="IMLTFM" Type="nchar" MaxLength="1" />
+          <Property Name="IMRWLA" Type="nchar" MaxLength="1" />
+          <Property Name="IMLNPA" Type="nchar" MaxLength="1" />
+          <Property Name="IMLOTC" Type="nchar" MaxLength="3" />
+          <Property Name="IMAPSC" Type="nchar" MaxLength="1" />
+          <Property Name="IMAUOM" Type="nchar" MaxLength="9" />
+          <Property Name="IMCONB" Type="nchar" MaxLength="1" />
+          <Property Name="IMGCMP" Type="nchar" MaxLength="1" />
+          <Property Name="IMPRI1" Type="float" />
+          <Property Name="IMPRI2" Type="float" />
+          <Property Name="IMASHL" Type="nchar" MaxLength="1" />
+          <Property Name="IMVMINV" Type="nchar" MaxLength="1" />
+          <Property Name="IMCMETH" Type="nchar" MaxLength="1" />
+          <Property Name="IMEXPI" Type="nchar" MaxLength="1" />
+          <Property Name="IMOPTH" Type="float" />
+          <Property Name="IMCUTH" Type="float" />
+          <Property Name="IMUMTH" Type="nchar" MaxLength="3" />
+          <Property Name="IMLMFG" Type="nchar" MaxLength="1" />
+          <Property Name="IMLINE" Type="nchar" MaxLength="12" />
+          <Property Name="IMDFTPCT" Type="float" />
+          <Property Name="IMKBIT" Type="nchar" MaxLength="1" />
+          <Property Name="IMDFENDITM" Type="nchar" MaxLength="1" />
+          <Property Name="IMKANEXLL" Type="nchar" MaxLength="1" />
+          <Property Name="IMSCPSELL" Type="nchar" MaxLength="1" />
+          <Property Name="IMMOPTH" Type="float" />
+          <Property Name="IMMCUTH" Type="float" />
+          <Property Name="IMCUMTH" Type="nchar" MaxLength="3" />
+        </EntityType>
+        <EntityType Name="F4104">
+          <Key>
+            <PropertyRef Name="IVAN8" />
+            <PropertyRef Name="IVXRT" />
+            <PropertyRef Name="IVITM" />
+            <PropertyRef Name="IVEXDJ" />
+            <PropertyRef Name="IVCITM" />
+            <PropertyRef Name="IVCIRV" />
+          </Key>
+          <Property Name="IVAN8" Type="float" Nullable="false" />
+          <Property Name="IVXRT" Type="nchar" MaxLength="2" Nullable="false" />
+          <Property Name="IVITM" Type="float" Nullable="false" />
+          <Property Name="IVEXDJ" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="IVEFTJ" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="IVMCU" Type="nchar" MaxLength="12" />
+          <Property Name="IVCITM" Type="nchar" MaxLength="25" Nullable="false" />
+          <Property Name="IVDSC1" Type="nchar" MaxLength="30" />
+          <Property Name="IVDSC2" Type="nchar" MaxLength="30" />
+          <Property Name="IVALN" Type="nchar" MaxLength="30" />
+          <Property Name="IVLITM" Type="nchar" MaxLength="25" />
+          <Property Name="IVAITM" Type="nchar" MaxLength="25" />
+          <Property Name="IVURCD" Type="nchar" MaxLength="2" />
+          <Property Name="IVURDT" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="IVURAT" Type="float" />
+          <Property Name="IVURAB" Type="float" />
+          <Property Name="IVURRF" Type="nchar" MaxLength="15" />
+          <Property Name="IVUSER" Type="nchar" MaxLength="10" />
+          <Property Name="IVPID" Type="nchar" MaxLength="10" />
+          <Property Name="IVJOBN" Type="nchar" MaxLength="10" />
+          <Property Name="IVUPMJ" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="IVTDAY" Type="float" />
+          <Property Name="IVRATO" Type="float" />
+          <Property Name="IVAPSP" Type="float" />
+          <Property Name="IVIDEM" Type="nchar" MaxLength="1" />
+          <Property Name="IVAPSS" Type="nchar" MaxLength="1" />
+          <Property Name="IVCIRV" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="IVADIND" Type="nchar" MaxLength="1" />
+          <Property Name="IVBPIND" Type="nchar" MaxLength="1" />
+          <Property Name="IVCARDNO" Type="nchar" MaxLength="4" />
+        </EntityType>
+        <EntityContainer Name="JDE_PRODUCTIONModelStoreContainer">
+          <EntitySet Name="F0005" EntityType="Self.F0005" Schema="PRODCTL" store:Type="Tables" />
+          <EntitySet Name="F4101" EntityType="Self.F4101" Schema="PRODDTA" store:Type="Tables" />
+          <EntitySet Name="F4104" EntityType="Self.F4104" Schema="PRODDTA" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="JDE_PRODUCTIONModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="F0005">
+          <Key>
+            <PropertyRef Name="DRSY" />
+            <PropertyRef Name="DRRT" />
+            <PropertyRef Name="DRKY" />
+          </Key>
+          <Property Name="DRSY" Type="String" MaxLength="4" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="DRRT" Type="String" MaxLength="2" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="DRKY" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="DRDL01" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="DRDL02" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="DRSPHD" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DRUDCO" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="DRHRDC" Type="String" MaxLength="1" FixedLength="true" Unicode="true" />
+          <Property Name="DRUSER" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DRPID" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DRUPMJ" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DRJOBN" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="DRUPMT" Type="Double" />
+        </EntityType>
+        <EntityType Name="F4101">
+          <Key>
+            <PropertyRef Name="IMITM" />
+          </Key>
+          <Property Name="IMITM" Type="Double" Nullable="false" />
+          <Property Name="IMLITM" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="IMAITM" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="IMDSC1" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="IMDSC2" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="IMSRTX" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="IMALN" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="IMSRP1" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="IMSRP2" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="IMSRP3" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="IMSRP4" Type="String" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="IMSRP8" Type="String" MaxLength="6" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="JDE_PRODUCTIONEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="F0005" EntityType="Self.F0005" />
+          <EntitySet Name="F4101" EntityType="Self.F4101" />
+          <EntitySet Name="F4104" EntityType="JDE_PRODUCTIONModel.F4104" />
+        </EntityContainer>
+        <EntityType Name="F4104">
+          <Key>
+            <PropertyRef Name="IVAN8" />
+            <PropertyRef Name="IVXRT" />
+            <PropertyRef Name="IVITM" />
+            <PropertyRef Name="IVEXDJ" />
+            <PropertyRef Name="IVCITM" />
+            <PropertyRef Name="IVCIRV" />
+          </Key>
+          <Property Name="IVAN8" Type="Double" Nullable="false" />
+          <Property Name="IVXRT" Type="String" Nullable="false" MaxLength="2" FixedLength="true" Unicode="true" />
+          <Property Name="IVITM" Type="Double" Nullable="false" />
+          <Property Name="IVEXDJ" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="IVEFTJ" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="IVMCU" Type="String" MaxLength="12" FixedLength="true" Unicode="true" />
+          <Property Name="IVCITM" Type="String" Nullable="false" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="IVDSC1" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="IVDSC2" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="IVALN" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="IVLITM" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="IVCIRV" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="JDE_PRODUCTIONModelStoreContainer" CdmEntityContainer="JDE_PRODUCTIONEntities">
+          <EntitySetMapping Name="F0005">
+            <EntityTypeMapping TypeName="JDE_PRODUCTIONModel.F0005">
+              <MappingFragment StoreEntitySet="F0005">
+                <ScalarProperty Name="DRSY" ColumnName="DRSY" />
+                <ScalarProperty Name="DRRT" ColumnName="DRRT" />
+                <ScalarProperty Name="DRKY" ColumnName="DRKY" />
+                <ScalarProperty Name="DRDL01" ColumnName="DRDL01" />
+                <ScalarProperty Name="DRDL02" ColumnName="DRDL02" />
+                <ScalarProperty Name="DRSPHD" ColumnName="DRSPHD" />
+                <ScalarProperty Name="DRUDCO" ColumnName="DRUDCO" />
+                <ScalarProperty Name="DRHRDC" ColumnName="DRHRDC" />
+                <ScalarProperty Name="DRUSER" ColumnName="DRUSER" />
+                <ScalarProperty Name="DRPID" ColumnName="DRPID" />
+                <ScalarProperty Name="DRUPMJ" ColumnName="DRUPMJ" />
+                <ScalarProperty Name="DRJOBN" ColumnName="DRJOBN" />
+                <ScalarProperty Name="DRUPMT" ColumnName="DRUPMT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="F4101">
+            <EntityTypeMapping TypeName="JDE_PRODUCTIONModel.F4101">
+              <MappingFragment StoreEntitySet="F4101">
+                <ScalarProperty Name="IMSRP8" ColumnName="IMSRP8" />
+                <ScalarProperty Name="IMITM" ColumnName="IMITM" />
+                <ScalarProperty Name="IMLITM" ColumnName="IMLITM" />
+                <ScalarProperty Name="IMAITM" ColumnName="IMAITM" />
+                <ScalarProperty Name="IMDSC1" ColumnName="IMDSC1" />
+                <ScalarProperty Name="IMDSC2" ColumnName="IMDSC2" />
+                <ScalarProperty Name="IMSRTX" ColumnName="IMSRTX" />
+                <ScalarProperty Name="IMALN" ColumnName="IMALN" />
+                <ScalarProperty Name="IMSRP1" ColumnName="IMSRP1" />
+                <ScalarProperty Name="IMSRP2" ColumnName="IMSRP2" />
+                <ScalarProperty Name="IMSRP3" ColumnName="IMSRP3" />
+                <ScalarProperty Name="IMSRP4" ColumnName="IMSRP4" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="F4104">
+            <EntityTypeMapping TypeName="JDE_PRODUCTIONModel.F4104">
+              <MappingFragment StoreEntitySet="F4104">
+                <ScalarProperty Name="IVCIRV" ColumnName="IVCIRV" />
+                <ScalarProperty Name="IVLITM" ColumnName="IVLITM" />
+                <ScalarProperty Name="IVALN" ColumnName="IVALN" />
+                <ScalarProperty Name="IVDSC2" ColumnName="IVDSC2" />
+                <ScalarProperty Name="IVDSC1" ColumnName="IVDSC1" />
+                <ScalarProperty Name="IVCITM" ColumnName="IVCITM" />
+                <ScalarProperty Name="IVMCU" ColumnName="IVMCU" />
+                <ScalarProperty Name="IVEFTJ" ColumnName="IVEFTJ" />
+                <ScalarProperty Name="IVEXDJ" ColumnName="IVEXDJ" />
+                <ScalarProperty Name="IVITM" ColumnName="IVITM" />
+                <ScalarProperty Name="IVXRT" ColumnName="IVXRT" />
+                <ScalarProperty Name="IVAN8" ColumnName="IVAN8" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

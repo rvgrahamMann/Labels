@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LabelPrintModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AltLabelItems">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemNum" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="AlterLabel" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CustProdId" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ShowJulianNoSellby" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="COO_List">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LongName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Abbrv" Type="varchar" MaxLength="12" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ItemsMaster">
+          <Key>
+            <PropertyRef Name="ItemNumer" />
+          </Key>
+          <Property Name="ItemNumer" Type="int" Nullable="false" />
+          <Property Name="ItemFull" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="ItemDesc" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="BrandAbbrv" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="BrandFull" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="GTIN" Type="varchar" MaxLength="14" Nullable="false" />
+          <Property Name="WalmartCode" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Printer">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Printer" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SrcAddress">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserList">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Logon" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="Printer" Type="int" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ItemsMaster_ItemsMaster">
+          <End Role="ItemsMaster" Type="Self.ItemsMaster" Multiplicity="1" />
+          <End Role="ItemsMaster1" Type="Self.ItemsMaster" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="ItemsMaster">
+              <PropertyRef Name="ItemNumer" />
+            </Principal>
+            <Dependent Role="ItemsMaster1">
+              <PropertyRef Name="ItemNumer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserList_Printer">
+          <End Role="Printer" Type="Self.Printer" Multiplicity="1" />
+          <End Role="UserList" Type="Self.UserList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Printer">
+              <PropertyRef Name="idx" />
+            </Principal>
+            <Dependent Role="UserList">
+              <PropertyRef Name="Printer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LabelPrintModelStoreContainer">
+          <EntitySet Name="AltLabelItems" EntityType="Self.AltLabelItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COO_List" EntityType="Self.COO_List" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemsMaster" EntityType="Self.ItemsMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Printer" EntityType="Self.Printer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SrcAddress" EntityType="Self.SrcAddress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserList" EntityType="Self.UserList" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ItemsMaster_ItemsMaster" Association="Self.FK_ItemsMaster_ItemsMaster">
+            <End Role="ItemsMaster" EntitySet="ItemsMaster" />
+            <End Role="ItemsMaster1" EntitySet="ItemsMaster" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserList_Printer" Association="Self.FK_UserList_Printer">
+            <End Role="Printer" EntitySet="Printer" />
+            <End Role="UserList" EntitySet="UserList" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LabelPrintModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="LabelPrintModels" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="COO_List" EntityType="LabelPrintModel.COO_List" />
+          <EntitySet Name="ItemsMasters" EntityType="LabelPrintModel.ItemsMaster" />
+          <EntitySet Name="UserLists" EntityType="LabelPrintModel.UserList" />
+          <EntitySet Name="Printers" EntityType="LabelPrintModel.Printer" />
+          <AssociationSet Name="FK_UserList_Printer" Association="LabelPrintModel.FK_UserList_Printer">
+            <End Role="Printer" EntitySet="Printers" />
+            <End Role="UserList" EntitySet="UserLists" />
+          </AssociationSet>
+          <EntitySet Name="SrcAddresses" EntityType="LabelPrintModel.SrcAddress" />
+          <EntitySet Name="AltLabelItems" EntityType="LabelPrintModel.AltLabelItem" />
+          </EntityContainer>
+        <EntityType Name="COO_List">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LongName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Abbrv" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ItemsMaster">
+          <Key>
+            <PropertyRef Name="ItemNumer" />
+          </Key>
+          <Property Name="ItemNumer" Type="Int32" Nullable="false" />
+          <Property Name="ItemFull" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="ItemDesc" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="BrandAbbrv" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="BrandFull" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="GTIN" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="false" />
+          <Property Name="WalmartCode" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          </EntityType>
+        <EntityType Name="UserList">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Logon" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="Printer" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Printer1" Relationship="LabelPrintModel.FK_UserList_Printer" FromRole="UserList" ToRole="Printer" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Printer">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Printer1" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserLists" Relationship="LabelPrintModel.FK_UserList_Printer" FromRole="Printer" ToRole="UserList" />
+        </EntityType>
+        <Association Name="FK_UserList_Printer">
+          <End Type="LabelPrintModel.Printer" Role="Printer" Multiplicity="1" />
+          <End Type="LabelPrintModel.UserList" Role="UserList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Printer">
+              <PropertyRef Name="idx" />
+            </Principal>
+            <Dependent Role="UserList">
+              <PropertyRef Name="Printer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SrcAddress">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="AltLabelItem">
+          <Key>
+            <PropertyRef Name="idx" />
+          </Key>
+          <Property Name="idx" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemNum" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="AlterLabel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustProdId" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ShowJulianNoSellby" Type="Boolean" Nullable="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LabelPrintModelStoreContainer" CdmEntityContainer="LabelPrintModels">
+          <EntitySetMapping Name="COO_List">
+            <EntityTypeMapping TypeName="LabelPrintModel.COO_List">
+              <MappingFragment StoreEntitySet="COO_List">
+                <ScalarProperty Name="Abbrv" ColumnName="Abbrv" />
+                <ScalarProperty Name="LongName" ColumnName="LongName" />
+                <ScalarProperty Name="idx" ColumnName="idx" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemsMasters">
+            <EntityTypeMapping TypeName="LabelPrintModel.ItemsMaster">
+              <MappingFragment StoreEntitySet="ItemsMaster">
+                <ScalarProperty Name="WalmartCode" ColumnName="WalmartCode" />
+                <ScalarProperty Name="GTIN" ColumnName="GTIN" />
+                <ScalarProperty Name="BrandFull" ColumnName="BrandFull" />
+                <ScalarProperty Name="BrandAbbrv" ColumnName="BrandAbbrv" />
+                <ScalarProperty Name="ItemDesc" ColumnName="ItemDesc" />
+                <ScalarProperty Name="ItemFull" ColumnName="ItemFull" />
+                <ScalarProperty Name="ItemNumer" ColumnName="ItemNumer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLists">
+            <EntityTypeMapping TypeName="LabelPrintModel.UserList">
+              <MappingFragment StoreEntitySet="UserList">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Printer" ColumnName="Printer" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Logon" ColumnName="Logon" />
+                <ScalarProperty Name="idx" ColumnName="idx" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Printers">
+            <EntityTypeMapping TypeName="LabelPrintModel.Printer">
+              <MappingFragment StoreEntitySet="Printer">
+                <ScalarProperty Name="Printer1" ColumnName="Printer" />
+                <ScalarProperty Name="idx" ColumnName="idx" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SrcAddresses">
+            <EntityTypeMapping TypeName="LabelPrintModel.SrcAddress">
+              <MappingFragment StoreEntitySet="SrcAddress">
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="idx" ColumnName="idx" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AltLabelItems">
+            <EntityTypeMapping TypeName="LabelPrintModel.AltLabelItem">
+              <MappingFragment StoreEntitySet="AltLabelItems">
+                <ScalarProperty Name="ShowJulianNoSellby" ColumnName="ShowJulianNoSellby" />
+                <ScalarProperty Name="CustProdId" ColumnName="CustProdId" />
+                <ScalarProperty Name="AlterLabel" ColumnName="AlterLabel" />
+                <ScalarProperty Name="ItemNum" ColumnName="ItemNum" />
+                <ScalarProperty Name="idx" ColumnName="idx" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

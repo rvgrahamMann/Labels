@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="273781b070da457e90315816b4fd55fa" Name="Diagram1">
+        <EntityTypeShape EntityType="LabelPrintModel.COO_List" Width="1.5" PointX="0.75" PointY="4.875" />
+        <EntityTypeShape EntityType="LabelPrintModel.ItemsMaster" Width="1.5" PointX="0.75" PointY="1.25" />
+        <EntityTypeShape EntityType="LabelPrintModel.UserList" Width="1.5" PointX="2.75" PointY="1.25" />
+        <EntityTypeShape EntityType="LabelPrintModel.Printer" Width="1.5" PointX="4.875" PointY="1.25" />
+        <AssociationConnector Association="LabelPrintModel.FK_UserList_Printer" />
+        <EntityTypeShape EntityType="LabelPrintModel.SrcAddress" Width="1.5" PointX="3.375" PointY="4.75" />
+        <EntityTypeShape EntityType="LabelPrintModel.AltLabelItem" Width="1.5" PointX="5.375" PointY="3.75" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
