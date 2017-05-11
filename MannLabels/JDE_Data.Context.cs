@@ -28,5 +28,6 @@ namespace MannLabels
         public virtual DbSet<F0005> F0005 { get; set; }
         public virtual DbSet<F4101> F4101 { get; set; }
         public virtual DbSet<F4104> F4104 { get; set; }
+        public virtual DbSet<F574101> F574101 { get; set; }
     }
 }

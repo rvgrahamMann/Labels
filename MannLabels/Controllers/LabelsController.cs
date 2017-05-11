@@ -249,6 +249,11 @@ namespace MannLabels.Controllers
             
             DateTime dt = (DateTime)dat.SellOrUseBy;
             string shift = dat.Shift;
+            decimal dWeight = 0m;
+            int fullLbs = 0;
+            decimal remaindOzs = 0;
+            decimal kgConv = 0m;
+            string wtStr = "";
             string fullItem = dat.Id.ToString().PadLeft(5, '0');
             bool incrementJulian = dat.JulianPlusOne; //this is new
             string fakeJulian = incrementJulian ? (DateTime.Today.DayOfYear + 1).ToString() : DateTime.Today.DayOfYear.ToString();
@@ -269,16 +274,37 @@ namespace MannLabels.Controllers
                                      select c.DRDL01.Trim()).FirstOrDefault(),
                         GTIN = p.IMAITM.Trim(),
                         WalmartCode = (from y in dbJDcn.F4104
-                                        where y.IVLITM.Trim() == p.IMLITM && y.IVXRT.ToUpper() == "UC"
-                                        select y.IVCITM.Trim()).FirstOrDefault() != null ? (from y in dbJDcn.F4104
-                                                                                            where y.IVLITM.Trim() == p.IMLITM && y.IVXRT.ToUpper() == "UC"
-                                                                                            select y.IVCITM.Trim()).FirstOrDefault() : ""
-                        //WalmartCode = p.IMSRP4.Trim() == "WM" ? ((from y in dbJDcn.F4104 //BG removed WM condition
-                        //                                          where y.IVLITM.Trim() == p.IMLITM && y.IVXRT.ToUpper() == "UC"
-                        //                                          select y.IVCITM.Trim()).FirstOrDefault() != null ? (from y in dbJDcn.F4104
-                        //                                                                                              where y.IVLITM.Trim() == p.IMLITM && y.IVXRT.ToUpper() == "UC"
-                        //                                                                                              select y.IVCITM.Trim()).FirstOrDefault() : "") : ""
+                                       where y.IVLITM.Trim() == p.IMLITM && y.IVXRT.ToUpper() == "UC"
+                                       select y.IVCITM.Trim()).FirstOrDefault() ?? ""
                     }).SingleOrDefault();
+                double? waight = dbJDcn.F574101
+                    .Where(p => p.QTLITM == fullItem)
+                    .Select(p => p.QTZ57BINO).FirstOrDefault();
+
+                if (waight.HasValue)
+                {
+                    //TODO test only
+                    //waight += 587;
+                    dWeight = Convert.ToDecimal(((double)(waight) / 100));
+                    fullLbs = Convert.ToInt32(Math.Floor(dWeight / 16));
+                    remaindOzs = (dWeight % 16);
+                    kgConv = Math.Round(dWeight * 0.0283495231m, 2);
+                    if (fullLbs > 0)
+                    {
+                        if (remaindOzs > 0)
+                        {
+                            wtStr = $"NET WT. {dWeight} OZ ({fullLbs} LB {remaindOzs} OZ) {kgConv} kg";
+                        }
+                        else
+                        {
+                            wtStr = $"NET WT. {dWeight} OZ ({fullLbs} LB) {kgConv} kg";
+                        }
+                    }
+                    else
+                    {
+                        wtStr = $"NET WT. {dWeight} OZ ({remaindOzs} OZ) {kgConv} kg";
+                    }
+                }
 
                 if (im != null)
                 {
@@ -291,6 +317,7 @@ namespace MannLabels.Controllers
                     string lilDigits = voicePickCode.Substring(0, 2);
                     string bigDigits = voicePickCode.Substring(2, 2);
                     string PrintDate = useAltTemplate != null && useAltTemplate.ShowJulianNoSellby == true ? fakeJulian : dt.ToString("MMM dd");
+                    string PrintDateFixed = dt.ToString("MMM dd");
                     bool item = im.WalmartCode != "";
                     string btwFile = item ? "Base4by2WalMartdesign" : "Base4by2design";
                     string cooo = db.COO_List.FirstOrDefault(p => p.idx == dat.CooId).LongName;
@@ -317,6 +344,16 @@ namespace MannLabels.Controllers
                                 sb.AppendFormat("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\"",
                                     im.ItemFull, im.GTIN.Substring(0, 13), cooo, PrintDate, im.ItemDesc, useAltTemplate.CustProdId, secondBcString,
                                     lilDigits, bigDigits, useAltTemplate.ShowJulianNoSellby == true ? "" : dat.UsebyLang, dat.CrewNum);
+                            }
+                            else if (useAltTemplate.AlterLabel == "USFoods_Opt_Format")
+                            {
+                                int firstDigit = im.ItemDesc.IndexOfAny("0123456789".ToCharArray());
+                                if (firstDigit > 5) firstDigit -= 1;
+                                string itemDescMinusNumerical = im.ItemDesc.Substring(0, firstDigit);
+                                sb.Append($@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{useAltTemplate.AlterLabel}.btw"" /D=""%Trigger File Name%"" /PRN=""{dat.PrinterName}"" /R=3 /P /C={dat.Qty.ToString()}");
+                                sb.AppendLine();
+                                sb.AppendLine("%END%");
+                                sb.Append($@"""{ im.ItemFull}"",""{ im.GTIN.Substring(0, 13)}"",""{cooo}"",""{PrintDateFixed}"",""{itemDescMinusNumerical}"",""{useAltTemplate.CustProdId}"",""{secondBcString}"",""{lilDigits}"",""{bigDigits}"",""{dat.UsebyLang}"",""{dat.CrewNum}"",""{wtStr}""");
                             }
                             else
                             {

@@ -273,10 +273,89 @@
           <Property Name="IVBPIND" Type="nchar" MaxLength="1" />
           <Property Name="IVCARDNO" Type="nchar" MaxLength="4" />
         </EntityType>
+        <EntityType Name="F574101">
+          <Key>
+            <PropertyRef Name="QTITM" />
+          </Key>
+          <Property Name="QTITM" Type="float" Nullable="false" />
+          <Property Name="QTLITM" Type="char" MaxLength="25" />
+          <Property Name="QTDIHI" Type="float" />
+          <Property Name="QTDIWI" Type="float" />
+          <Property Name="QTZ56DP" Type="float" />
+          <Property Name="QTZ56DCU" Type="char" MaxLength="2" />
+          <Property Name="QTZ56DIH" Type="float" />
+          <Property Name="QTZ56DIW" Type="float" />
+          <Property Name="QTZ56DID" Type="float" />
+          <Property Name="QTZ56DIU" Type="char" MaxLength="2" />
+          <Property Name="QTZ56CPL" Type="float" />
+          <Property Name="QTZ56LPP" Type="float" />
+          <Property Name="QTZ56MTMP" Type="float" />
+          <Property Name="QTZ56XTMP" Type="float" />
+          <Property Name="QTZ56TU" Type="char" MaxLength="2" />
+          <Property Name="QTZ56MD" Type="char" MaxLength="178" />
+          <Property Name="QTZ56LID" Type="char" MaxLength="178" />
+          <Property Name="QTZ56COO1" Type="char" MaxLength="3" />
+          <Property Name="QTZ56COO2" Type="char" MaxLength="3" />
+          <Property Name="QTZ56COO3" Type="char" MaxLength="3" />
+          <Property Name="QTZ56COO4" Type="char" MaxLength="3" />
+          <Property Name="QTZ56COO5" Type="char" MaxLength="3" />
+          <Property Name="QTUSER" Type="char" MaxLength="10" />
+          <Property Name="QTPID" Type="char" MaxLength="10" />
+          <Property Name="QTJOBN" Type="char" MaxLength="10" />
+          <Property Name="QTUPMJ" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="QTUPMT" Type="float" />
+          <Property Name="QTZ57IT" Type="float" />
+          <Property Name="QTZ57IC" Type="float" />
+          <Property Name="QTZ57IS" Type="float" />
+          <Property Name="QTZ57SS" Type="float" />
+          <Property Name="QTZ57PT" Type="float" />
+          <Property Name="QTZ57PKT" Type="float" />
+          <Property Name="QTZ57IMCU" Type="float" />
+          <Property Name="QTZ57IBR" Type="float" />
+          <Property Name="QTZ57GM" Type="float" />
+          <Property Name="QTZ57CC" Type="float" />
+          <Property Name="QTZ57OZ" Type="float" />
+          <Property Name="QTZ57TOZ" Type="float" />
+          <Property Name="QTZ57PS" Type="float" />
+          <Property Name="QTZ57UPC" Type="char" MaxLength="30" />
+          <Property Name="QTZ57DDJ" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="QTZ57PL" Type="char" MaxLength="30" />
+          <Property Name="QTZ57LDJ" Type="numeric" Precision="18" Scale="0" />
+          <Property Name="QTZ57ICH" Type="float" />
+          <Property Name="QTZ57ICW" Type="float" />
+          <Property Name="QTZ57ICD" Type="float" />
+          <Property Name="QTZ57BIBS" Type="char" MaxLength="5" />
+          <Property Name="QTZ57BIBSD" Type="char" MaxLength="30" />
+          <Property Name="QTZ57BIBA" Type="char" MaxLength="5" />
+          <Property Name="QTZ57BIBAD" Type="char" MaxLength="30" />
+          <Property Name="QTZ57BIPL" Type="char" MaxLength="10" />
+          <Property Name="QTZ57BIPLD" Type="char" MaxLength="30" />
+          <Property Name="QTZ57BIP" Type="char" MaxLength="10" />
+          <Property Name="QTZ57BIPD" Type="char" MaxLength="30" />
+          <Property Name="QTZ57BIC" Type="char" MaxLength="5" />
+          <Property Name="QTZ57BICD" Type="char" MaxLength="30" />
+          <Property Name="QTZ57BIIP" Type="char" MaxLength="5" />
+          <Property Name="QTZ57BIIPD" Type="char" MaxLength="30" />
+          <Property Name="QTZ57BIOP" Type="char" MaxLength="5" />
+          <Property Name="QTZ57BIOPD" Type="char" MaxLength="30" />
+          <Property Name="QTZ57BIB" Type="char" MaxLength="5" />
+          <Property Name="QTZ57BIBD" Type="char" MaxLength="30" />
+          <Property Name="QTZ57BIIM" Type="float" />
+          <Property Name="QTZ57BIIU" Type="char" MaxLength="5" />
+          <Property Name="QTZ57BIOM" Type="float" />
+          <Property Name="QTZ57BIOU" Type="char" MaxLength="5" />
+          <Property Name="QTZ57BIFPL" Type="char" MaxLength="10" />
+          <Property Name="QTZ57BIFPLD" Type="char" MaxLength="30" />
+          <Property Name="QTZ57BIFSP" Type="char" MaxLength="10" />
+          <Property Name="QTZ57BIFSD" Type="char" MaxLength="30" />
+          <Property Name="QTZ57BIMPG" Type="char" MaxLength="50" />
+          <Property Name="QTZ57BINO" Type="float" />
+        </EntityType>
         <EntityContainer Name="JDE_PRODUCTIONModelStoreContainer">
           <EntitySet Name="F0005" EntityType="Self.F0005" Schema="PRODCTL" store:Type="Tables" />
           <EntitySet Name="F4101" EntityType="Self.F4101" Schema="PRODDTA" store:Type="Tables" />
           <EntitySet Name="F4104" EntityType="Self.F4104" Schema="PRODDTA" store:Type="Tables" />
+          <EntitySet Name="F574101" EntityType="Self.F574101" Schema="PRODDTA" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -323,6 +402,7 @@
           <EntitySet Name="F0005" EntityType="Self.F0005" />
           <EntitySet Name="F4101" EntityType="Self.F4101" />
           <EntitySet Name="F4104" EntityType="JDE_PRODUCTIONModel.F4104" />
+          <EntitySet Name="F574101" EntityType="JDE_PRODUCTIONModel.F574101" />
         </EntityContainer>
         <EntityType Name="F4104">
           <Key>
@@ -345,6 +425,84 @@
           <Property Name="IVALN" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
           <Property Name="IVLITM" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
           <Property Name="IVCIRV" Type="String" Nullable="false" MaxLength="20" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="F574101">
+          <Key>
+            <PropertyRef Name="QTITM" />
+          </Key>
+          <Property Name="QTITM" Type="Double" Nullable="false" />
+          <Property Name="QTLITM" Type="String" MaxLength="25" FixedLength="true" Unicode="false" />
+          <Property Name="QTDIHI" Type="Double" />
+          <Property Name="QTDIWI" Type="Double" />
+          <Property Name="QTZ56DP" Type="Double" />
+          <Property Name="QTZ56DCU" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ56DIH" Type="Double" />
+          <Property Name="QTZ56DIW" Type="Double" />
+          <Property Name="QTZ56DID" Type="Double" />
+          <Property Name="QTZ56DIU" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ56CPL" Type="Double" />
+          <Property Name="QTZ56LPP" Type="Double" />
+          <Property Name="QTZ56MTMP" Type="Double" />
+          <Property Name="QTZ56XTMP" Type="Double" />
+          <Property Name="QTZ56TU" Type="String" MaxLength="2" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ56MD" Type="String" MaxLength="178" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ56LID" Type="String" MaxLength="178" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ56COO1" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ56COO2" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ56COO3" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ56COO4" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ56COO5" Type="String" MaxLength="3" FixedLength="true" Unicode="false" />
+          <Property Name="QTUSER" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="QTPID" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="QTJOBN" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="QTUPMJ" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="QTUPMT" Type="Double" />
+          <Property Name="QTZ57IT" Type="Double" />
+          <Property Name="QTZ57IC" Type="Double" />
+          <Property Name="QTZ57IS" Type="Double" />
+          <Property Name="QTZ57SS" Type="Double" />
+          <Property Name="QTZ57PT" Type="Double" />
+          <Property Name="QTZ57PKT" Type="Double" />
+          <Property Name="QTZ57IMCU" Type="Double" />
+          <Property Name="QTZ57IBR" Type="Double" />
+          <Property Name="QTZ57GM" Type="Double" />
+          <Property Name="QTZ57CC" Type="Double" />
+          <Property Name="QTZ57OZ" Type="Double" />
+          <Property Name="QTZ57TOZ" Type="Double" />
+          <Property Name="QTZ57PS" Type="Double" />
+          <Property Name="QTZ57UPC" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57DDJ" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="QTZ57PL" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57LDJ" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="QTZ57ICH" Type="Double" />
+          <Property Name="QTZ57ICW" Type="Double" />
+          <Property Name="QTZ57ICD" Type="Double" />
+          <Property Name="QTZ57BIBS" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIBSD" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIBA" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIBAD" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIPL" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIPLD" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIP" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIPD" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIC" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BICD" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIIP" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIIPD" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIOP" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIOPD" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIB" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIBD" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIIM" Type="Double" />
+          <Property Name="QTZ57BIIU" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIOM" Type="Double" />
+          <Property Name="QTZ57BIOU" Type="String" MaxLength="5" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIFPL" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIFPLD" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIFSP" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIFSD" Type="String" MaxLength="30" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BIMPG" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="QTZ57BINO" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -404,6 +562,85 @@
                 <ScalarProperty Name="IVITM" ColumnName="IVITM" />
                 <ScalarProperty Name="IVXRT" ColumnName="IVXRT" />
                 <ScalarProperty Name="IVAN8" ColumnName="IVAN8" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="F574101">
+            <EntityTypeMapping TypeName="JDE_PRODUCTIONModel.F574101">
+              <MappingFragment StoreEntitySet="F574101">
+                <ScalarProperty Name="QTZ57BINO" ColumnName="QTZ57BINO" />
+                <ScalarProperty Name="QTZ57BIMPG" ColumnName="QTZ57BIMPG" />
+                <ScalarProperty Name="QTZ57BIFSD" ColumnName="QTZ57BIFSD" />
+                <ScalarProperty Name="QTZ57BIFSP" ColumnName="QTZ57BIFSP" />
+                <ScalarProperty Name="QTZ57BIFPLD" ColumnName="QTZ57BIFPLD" />
+                <ScalarProperty Name="QTZ57BIFPL" ColumnName="QTZ57BIFPL" />
+                <ScalarProperty Name="QTZ57BIOU" ColumnName="QTZ57BIOU" />
+                <ScalarProperty Name="QTZ57BIOM" ColumnName="QTZ57BIOM" />
+                <ScalarProperty Name="QTZ57BIIU" ColumnName="QTZ57BIIU" />
+                <ScalarProperty Name="QTZ57BIIM" ColumnName="QTZ57BIIM" />
+                <ScalarProperty Name="QTZ57BIBD" ColumnName="QTZ57BIBD" />
+                <ScalarProperty Name="QTZ57BIB" ColumnName="QTZ57BIB" />
+                <ScalarProperty Name="QTZ57BIOPD" ColumnName="QTZ57BIOPD" />
+                <ScalarProperty Name="QTZ57BIOP" ColumnName="QTZ57BIOP" />
+                <ScalarProperty Name="QTZ57BIIPD" ColumnName="QTZ57BIIPD" />
+                <ScalarProperty Name="QTZ57BIIP" ColumnName="QTZ57BIIP" />
+                <ScalarProperty Name="QTZ57BICD" ColumnName="QTZ57BICD" />
+                <ScalarProperty Name="QTZ57BIC" ColumnName="QTZ57BIC" />
+                <ScalarProperty Name="QTZ57BIPD" ColumnName="QTZ57BIPD" />
+                <ScalarProperty Name="QTZ57BIP" ColumnName="QTZ57BIP" />
+                <ScalarProperty Name="QTZ57BIPLD" ColumnName="QTZ57BIPLD" />
+                <ScalarProperty Name="QTZ57BIPL" ColumnName="QTZ57BIPL" />
+                <ScalarProperty Name="QTZ57BIBAD" ColumnName="QTZ57BIBAD" />
+                <ScalarProperty Name="QTZ57BIBA" ColumnName="QTZ57BIBA" />
+                <ScalarProperty Name="QTZ57BIBSD" ColumnName="QTZ57BIBSD" />
+                <ScalarProperty Name="QTZ57BIBS" ColumnName="QTZ57BIBS" />
+                <ScalarProperty Name="QTZ57ICD" ColumnName="QTZ57ICD" />
+                <ScalarProperty Name="QTZ57ICW" ColumnName="QTZ57ICW" />
+                <ScalarProperty Name="QTZ57ICH" ColumnName="QTZ57ICH" />
+                <ScalarProperty Name="QTZ57LDJ" ColumnName="QTZ57LDJ" />
+                <ScalarProperty Name="QTZ57PL" ColumnName="QTZ57PL" />
+                <ScalarProperty Name="QTZ57DDJ" ColumnName="QTZ57DDJ" />
+                <ScalarProperty Name="QTZ57UPC" ColumnName="QTZ57UPC" />
+                <ScalarProperty Name="QTZ57PS" ColumnName="QTZ57PS" />
+                <ScalarProperty Name="QTZ57TOZ" ColumnName="QTZ57TOZ" />
+                <ScalarProperty Name="QTZ57OZ" ColumnName="QTZ57OZ" />
+                <ScalarProperty Name="QTZ57CC" ColumnName="QTZ57CC" />
+                <ScalarProperty Name="QTZ57GM" ColumnName="QTZ57GM" />
+                <ScalarProperty Name="QTZ57IBR" ColumnName="QTZ57IBR" />
+                <ScalarProperty Name="QTZ57IMCU" ColumnName="QTZ57IMCU" />
+                <ScalarProperty Name="QTZ57PKT" ColumnName="QTZ57PKT" />
+                <ScalarProperty Name="QTZ57PT" ColumnName="QTZ57PT" />
+                <ScalarProperty Name="QTZ57SS" ColumnName="QTZ57SS" />
+                <ScalarProperty Name="QTZ57IS" ColumnName="QTZ57IS" />
+                <ScalarProperty Name="QTZ57IC" ColumnName="QTZ57IC" />
+                <ScalarProperty Name="QTZ57IT" ColumnName="QTZ57IT" />
+                <ScalarProperty Name="QTUPMT" ColumnName="QTUPMT" />
+                <ScalarProperty Name="QTUPMJ" ColumnName="QTUPMJ" />
+                <ScalarProperty Name="QTJOBN" ColumnName="QTJOBN" />
+                <ScalarProperty Name="QTPID" ColumnName="QTPID" />
+                <ScalarProperty Name="QTUSER" ColumnName="QTUSER" />
+                <ScalarProperty Name="QTZ56COO5" ColumnName="QTZ56COO5" />
+                <ScalarProperty Name="QTZ56COO4" ColumnName="QTZ56COO4" />
+                <ScalarProperty Name="QTZ56COO3" ColumnName="QTZ56COO3" />
+                <ScalarProperty Name="QTZ56COO2" ColumnName="QTZ56COO2" />
+                <ScalarProperty Name="QTZ56COO1" ColumnName="QTZ56COO1" />
+                <ScalarProperty Name="QTZ56LID" ColumnName="QTZ56LID" />
+                <ScalarProperty Name="QTZ56MD" ColumnName="QTZ56MD" />
+                <ScalarProperty Name="QTZ56TU" ColumnName="QTZ56TU" />
+                <ScalarProperty Name="QTZ56XTMP" ColumnName="QTZ56XTMP" />
+                <ScalarProperty Name="QTZ56MTMP" ColumnName="QTZ56MTMP" />
+                <ScalarProperty Name="QTZ56LPP" ColumnName="QTZ56LPP" />
+                <ScalarProperty Name="QTZ56CPL" ColumnName="QTZ56CPL" />
+                <ScalarProperty Name="QTZ56DIU" ColumnName="QTZ56DIU" />
+                <ScalarProperty Name="QTZ56DID" ColumnName="QTZ56DID" />
+                <ScalarProperty Name="QTZ56DIW" ColumnName="QTZ56DIW" />
+                <ScalarProperty Name="QTZ56DIH" ColumnName="QTZ56DIH" />
+                <ScalarProperty Name="QTZ56DCU" ColumnName="QTZ56DCU" />
+                <ScalarProperty Name="QTZ56DP" ColumnName="QTZ56DP" />
+                <ScalarProperty Name="QTDIWI" ColumnName="QTDIWI" />
+                <ScalarProperty Name="QTDIHI" ColumnName="QTDIHI" />
+                <ScalarProperty Name="QTLITM" ColumnName="QTLITM" />
+                <ScalarProperty Name="QTITM" ColumnName="QTITM" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
