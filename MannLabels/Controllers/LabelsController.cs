@@ -246,8 +246,17 @@ namespace MannLabels.Controllers
         public IHttpActionResult PostPrintLabel(LabelToPrintModel dat)
         {
             LabelPrintModels db = new LabelPrintModels();
-            
-            DateTime dt = (DateTime)dat.SellOrUseBy;
+            DateTime dt;
+            bool noDate = dat.NoDate;
+            if (!noDate)
+            {
+               dt  = (DateTime)dat.SellOrUseBy;
+            }
+            else
+            {
+                dt = DateTime.Today; //TODO fix pack date not to be incremented when UseByDays > 0
+            }
+            DateTime packDate = dt;
             string shift = dat.Shift;
             decimal dWeight = 0m;
             int fullLbs = 0;
@@ -257,134 +266,249 @@ namespace MannLabels.Controllers
             string fullItem = dat.Id.ToString().PadLeft(5, '0');
             bool incrementJulian = dat.JulianPlusOne; //this is new
             string fakeJulian = incrementJulian ? (DateTime.Today.DayOfYear + 1).ToString() : DateTime.Today.DayOfYear.ToString();
+            bool isWalMart = dat.IsWm;
+            int useByDays = dat.UseByDays;
+            string bCodeDateVal = "";
+            if (isWalMart && dat.UseByDays > 0) dt = dt.AddDays(useByDays);
+            bCodeDateVal = dt.ToString("yyMMdd");
 
-            using (JDE_PRODUCTIONEntities dbJDcn = new JDE_PRODUCTIONEntities())
+            if (isWalMart)
             {
-                ItemsMasterModel im = dbJDcn.F4101
-                    .Where(p => p.IMLITM == fullItem)
-                    .Select(p => new ItemsMasterModel
-                    {
-                        ItemFull = p.IMLITM.Trim(),
-                        ItemDesc = p.IMDSC1.Trim(),
-                        BrandAbbrv = p.IMSRP4.Trim(),
-                        BrandFull = (from c in dbJDcn.F0005
-                                     where c.DRSY == "41"
-                                     && c.DRRT.ToUpper() == "S4"
-                                     && c.DRKY.Trim() == p.IMSRP4.Trim()
-                                     select c.DRDL01.Trim()).FirstOrDefault(),
-                        GTIN = p.IMAITM.Trim(),
-                        WalmartCode = (from y in dbJDcn.F4104
-                                       where y.IVLITM.Trim() == p.IMLITM && y.IVXRT.ToUpper() == "UC"
-                                       select y.IVCITM.Trim()).FirstOrDefault() ?? ""
-                    }).SingleOrDefault();
-                double? waight = dbJDcn.F574101
-                    .Where(p => p.QTLITM == fullItem)
-                    .Select(p => p.QTZ57BINO).FirstOrDefault();
-
-                if (waight.HasValue)
+                using (JDE_PRODUCTIONEntities dbJDcn = new JDE_PRODUCTIONEntities())
                 {
-                    //TODO test only
-                    //waight += 587;
-                    dWeight = Convert.ToDecimal(((double)(waight) / 100));
-                    fullLbs = Convert.ToInt32(Math.Floor(dWeight / 16));
-                    remaindOzs = (dWeight % 16);
-                    kgConv = Math.Round(dWeight * 0.0283495231m, 2);
-                    if (fullLbs > 0)
+                    ItemsMasterModel im = dbJDcn.F4101
+                        .Where(p => p.IMLITM == fullItem)
+                        .Select(p => new ItemsMasterModel
+                        {
+                            ItemFull = p.IMLITM.Trim(),
+                            ItemDesc = p.IMDSC1.Trim(),
+                            BrandAbbrv = p.IMSRP4.Trim(),
+                            BrandFull = (from c in dbJDcn.F0005
+                                         where c.DRSY == "41"
+                                         && c.DRRT.ToUpper() == "S4"
+                                         && c.DRKY.Trim() == p.IMSRP4.Trim()
+                                         select c.DRDL01.Trim()).FirstOrDefault(),
+                            GTIN = p.IMAITM.Trim(),
+                            WalmartCode = (from y in dbJDcn.F4104
+                                           where y.IVLITM.Trim() == p.IMLITM && y.IVXRT.ToUpper() == "UC"
+                                           select y.IVCITM.Trim()).FirstOrDefault() ?? ""
+                        }).SingleOrDefault();
+
+                    if (im != null)
                     {
-                        if (remaindOzs > 0)
+                        string secondBcString = shift + im.ItemFull + fakeJulian + DateTime.Now.Year.ToString().Substring(2, 2) + dat.CooId;
+
+                        //See if we need to use alternate label
+                        AltLabelItem useAltTemplate = db.AltLabelItems.FirstOrDefault(p => p.ItemNum == fullItem);
+
+                        string voicePickCode = VoiceCode.Compute(im.GTIN, secondBcString, null);
+                        string lilDigits = voicePickCode.Substring(0, 2);
+                        string bigDigits = voicePickCode.Substring(2, 2);
+                        string PrintDate = packDate.ToString("MMM dd"); //useAltTemplate != null && useAltTemplate.ShowJulianNoSellby == true ? fakeJulian : dt.ToString("MMM dd");
+                        string PrintDateFixed = dt.ToString("MMM dd");
+                        string btwFile = dat.UseByDays > 0 ? 
+                                (im.WalmartCode == ""?
+                                    "Base4by2NEWWalMartdesignWleadTimeNOUPC"
+                                    : "Base4by2NEWWalMartdesignWleadTime"
+                                ) 
+                                :im.WalmartCode == "" ?
+                                "Base4by2NEWWalMartdesignNOUPC"
+                                : "Base4by2NEWWalMartdesign"
+                            ;
+                        string cooo = db.COO_List.FirstOrDefault(p => p.idx == dat.CooId).LongName;
+                        using (Impersonation.LogonUser("MANN", "bartender", "vodkagimlet", LogonType.Interactive))
                         {
-                            wtStr = $"NET WT. {dWeight} OZ ({fullLbs} LB {remaindOzs} OZ) {kgConv} kg";
-                        }
-                        else
-                        {
-                            wtStr = $"NET WT. {dWeight} OZ ({fullLbs} LB) {kgConv} kg";
+                            StringBuilder sb = new StringBuilder();
+                            //Fork if using alternate template
+                            sb.AppendFormat(@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{0}.btw"" /D=""%Trigger File Name%"" /PRN=""{1}"" /R=3 /P /C={2}", btwFile, dat.PrinterName, dat.Qty.ToString());
+                            sb.AppendLine();
+                            sb.AppendLine("%END%");
+                            sb.AppendFormat("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\",\"{12}\",\"{13}\",\"{14}\"",
+                                im.ItemFull, im.GTIN.Substring(0, 13), cooo, PrintDate, im.ItemDesc, dat.SrcAddress, secondBcString, im.BrandFull,
+                                dat.Shift, lilDigits, bigDigits, "", im.WalmartCode, dat.CrewNum, bCodeDateVal);
+
+                            sb.AppendLine();
+                            try
+                            {
+                                File.WriteAllText(@"\\mann-forms\Data\FileFromMannLabels.csv", sb.ToString());
+                                return Ok();
+                            }
+                            catch (Exception ex)
+                            {
+                                return BadRequest(ex.Message);
+                            }
+                            finally
+                            {
+                                db.Dispose();
+                            }
                         }
                     }
                     else
                     {
-                        wtStr = $"NET WT. {dWeight} OZ ({remaindOzs} OZ) {kgConv} kg";
+                        return BadRequest("Item Not found");
                     }
                 }
-
-                if (im != null)
+            }
+            else
+            {
+                using (JDE_PRODUCTIONEntities dbJDcn = new JDE_PRODUCTIONEntities())
                 {
-                    string secondBcString = shift + im.ItemFull + fakeJulian + DateTime.Now.Year.ToString().Substring(2, 2) + dat.CooId;
+                    ItemsMasterModel im = dbJDcn.F4101
+                        .Where(p => p.IMLITM == fullItem)
+                        .Select(p => new ItemsMasterModel
+                        {
+                            ItemFull = p.IMLITM.Trim(),
+                            ItemDesc = p.IMDSC1.Trim(),
+                            BrandAbbrv = p.IMSRP4.Trim(),
+                            BrandFull = (from c in dbJDcn.F0005
+                                         where c.DRSY == "41"
+                                         && c.DRRT.ToUpper() == "S4"
+                                         && c.DRKY.Trim() == p.IMSRP4.Trim()
+                                         select c.DRDL01.Trim()).FirstOrDefault(),
+                            GTIN = p.IMAITM.Trim(),
+                            WalmartCode = dat.WalmartCode
+                        }).SingleOrDefault();
+                    double? waight = dbJDcn.F574101
+                        .Where(p => p.QTLITM == fullItem)
+                        .Select(p => p.QTZ57BINO).FirstOrDefault();
 
-                    //See if we need to use alternate label
-                    AltLabelItem useAltTemplate = db.AltLabelItems.FirstOrDefault(p => p.ItemNum == fullItem);
-
-                    string voicePickCode = VoiceCode.Compute(im.GTIN, secondBcString, null);
-                    string lilDigits = voicePickCode.Substring(0, 2);
-                    string bigDigits = voicePickCode.Substring(2, 2);
-                    string PrintDate = useAltTemplate != null && useAltTemplate.ShowJulianNoSellby == true ? fakeJulian : dt.ToString("MMM dd");
-                    string PrintDateFixed = dt.ToString("MMM dd");
-                    bool item = im.WalmartCode != "";
-                    string btwFile = item ? "Base4by2WalMartdesign" : "Base4by2design";
-                    string cooo = db.COO_List.FirstOrDefault(p => p.idx == dat.CooId).LongName;
-                    using (Impersonation.LogonUser("MANN", "bartender", "vodkagimlet", LogonType.Interactive))
+                    if (waight.HasValue)
                     {
-                        StringBuilder sb = new StringBuilder();
-                        //Fork if using alternate template
-                        if (useAltTemplate == null)
+                        //TODO test only
+                        //waight += 587;
+                        dWeight = Convert.ToDecimal(((double)(waight) / 100));
+                        fullLbs = Convert.ToInt32(Math.Floor(dWeight / 16));
+                        remaindOzs = (dWeight % 16);
+                        kgConv = Math.Round(dWeight * 0.0283495231m, 2);
+                        if (fullLbs > 0)
                         {
-                            sb.AppendFormat(@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{0}.btw"" /D=""%Trigger File Name%"" /PRN=""{1}"" /R=3 /P /C={2}", btwFile, dat.PrinterName, dat.Qty.ToString());
-                            sb.AppendLine();
-                            sb.AppendLine("%END%");
-                            sb.AppendFormat("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\",\"{12}\",\"{13}\"",
-                                im.ItemFull, im.GTIN.Substring(0, 13), cooo, PrintDate, im.ItemDesc, dat.SrcAddress, secondBcString, im.BrandFull,
-                                dat.Shift, lilDigits, bigDigits, dat.UsebyLang, im.WalmartCode, dat.CrewNum);
-                        }
-                        else
-                        {
-                            if (useAltTemplate.AlterLabel == "CVF_Opt_Format")
+                            if (remaindOzs > 0)
                             {
-                                sb.AppendFormat(@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{0}.btw"" /D=""%Trigger File Name%"" /PRN=""{1}"" /R=3 /P /C={2}", useAltTemplate.AlterLabel, dat.PrinterName, dat.Qty.ToString());
-                                sb.AppendLine();
-                                sb.AppendLine("%END%");
-                                sb.AppendFormat("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\"",
-                                    im.ItemFull, im.GTIN.Substring(0, 13), cooo, PrintDate, im.ItemDesc, useAltTemplate.CustProdId, secondBcString,
-                                    lilDigits, bigDigits, useAltTemplate.ShowJulianNoSellby == true ? "" : dat.UsebyLang, dat.CrewNum);
-                            }
-                            else if (useAltTemplate.AlterLabel == "USFoods_Opt_Format")
-                            {
-                                int firstDigit = im.ItemDesc.IndexOfAny("0123456789".ToCharArray());
-                                if (firstDigit > 5) firstDigit -= 1;
-                                string itemDescMinusNumerical = im.ItemDesc.Substring(0, firstDigit);
-                                sb.Append($@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{useAltTemplate.AlterLabel}.btw"" /D=""%Trigger File Name%"" /PRN=""{dat.PrinterName}"" /R=3 /P /C={dat.Qty.ToString()}");
-                                sb.AppendLine();
-                                sb.AppendLine("%END%");
-                                sb.Append($@"""{ im.ItemFull}"",""{ im.GTIN.Substring(0, 13)}"",""{cooo}"",""{PrintDateFixed}"",""{itemDescMinusNumerical}"",""{useAltTemplate.CustProdId}"",""{secondBcString}"",""{lilDigits}"",""{bigDigits}"",""{dat.UsebyLang}"",""{dat.CrewNum}"",""{wtStr}""");
+                                wtStr = $"NET WT. {dWeight} OZ ({fullLbs} LB {remaindOzs} OZ) {kgConv} kg";
                             }
                             else
                             {
-                                sb.AppendFormat(@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{0}.btw"" /D=""%Trigger File Name%"" /PRN=""{1}"" /R=3 /P /C={2}", btwFile, dat.PrinterName, dat.Qty.ToString());
+                                wtStr = $"NET WT. {dWeight} OZ ({fullLbs} LB) {kgConv} kg";
+                            }
+                        }
+                        else
+                        {
+                            wtStr = $"NET WT. {dWeight} OZ ({remaindOzs} OZ) {kgConv} kg";
+                        }
+                    }
+
+                    if (im != null)
+                    {
+                        string secondBcString = shift + im.ItemFull + fakeJulian + DateTime.Now.Year.ToString().Substring(2, 2) + dat.CooId;
+
+                        //See if we need to use alternate label
+                        AltLabelItem useAltTemplate = db.AltLabelItems.FirstOrDefault(p => p.ItemNum == fullItem);
+
+                        string voicePickCode = VoiceCode.Compute(im.GTIN, secondBcString, null);
+                        string lilDigits = voicePickCode.Substring(0, 2);
+                        string bigDigits = voicePickCode.Substring(2, 2);
+                        string PrintDate = useAltTemplate != null && useAltTemplate.ShowJulianNoSellby == true ? fakeJulian : dt.ToString("MMM dd");
+                        string PrintDateFixed = dt.ToString("MMM dd");
+                        bool item = im.WalmartCode != "";
+                        string btwFile = item ? "Base4by2WalMartdesign" : "Base4by2design";
+                        string cooo = db.COO_List.FirstOrDefault(p => p.idx == dat.CooId).LongName;
+                        using (Impersonation.LogonUser("MANN", "bartender", "vodkagimlet", LogonType.Interactive))
+                        {
+                            StringBuilder sb = new StringBuilder();
+                            if (noDate)
+                            {
+                                sb.AppendFormat(@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\Base4by2designNoDate.btw"" /D=""%Trigger File Name%"" /PRN=""{0}"" /R=3 /P /C={1}", dat.PrinterName, dat.Qty.ToString());
                                 sb.AppendLine();
                                 sb.AppendLine("%END%");
                                 sb.AppendFormat("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\",\"{12}\",\"{13}\"",
-                                    im.ItemFull, im.GTIN.Substring(0, 13), cooo, fakeJulian, im.ItemDesc, dat.SrcAddress, secondBcString, im.BrandFull,
+                                    im.ItemFull, im.GTIN.Substring(0, 13), cooo, "", im.ItemDesc, dat.SrcAddress, secondBcString, im.BrandFull,
                                     dat.Shift, lilDigits, bigDigits, "", im.WalmartCode, dat.CrewNum);
                             }
-                        }
+                            else
+                            {
+                                if (useAltTemplate == null)
+                                {
+                                    sb.AppendFormat(@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{0}.btw"" /D=""%Trigger File Name%"" /PRN=""{1}"" /R=3 /P /C={2}", btwFile, dat.PrinterName, dat.Qty.ToString());
+                                    sb.AppendLine();
+                                    sb.AppendLine("%END%");
+                                    sb.AppendFormat("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\",\"{12}\",\"{13}\"",
+                                        im.ItemFull, im.GTIN.Substring(0, 13), cooo, PrintDate, im.ItemDesc, dat.SrcAddress, secondBcString, im.BrandFull,
+                                        dat.Shift, lilDigits, bigDigits, dat.UsebyLang, im.WalmartCode, dat.CrewNum);
+                                }
+                                else
+                                {
+                                    if (useAltTemplate.AlterLabel == "Base4by2designHidelocation")
+                                    {
+                                        sb.AppendFormat(@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{0}.btw"" /D=""%Trigger File Name%"" /PRN=""{1}"" /R=3 /P /C={2}", btwFile, dat.PrinterName, dat.Qty.ToString());
+                                        sb.AppendLine();
+                                        sb.AppendLine("%END%");
+                                        sb.AppendFormat("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\",\"{12}\",\"{13}\"",
+                                            im.ItemFull, im.GTIN.Substring(0, 13), cooo, PrintDate, im.ItemDesc, "", secondBcString, im.BrandFull,
+                                            dat.Shift, lilDigits, bigDigits, dat.UsebyLang, im.WalmartCode, dat.CrewNum);
+                                    }
+                                    else if (useAltTemplate.AlterLabel == "CVF_Opt_Format")
+                                    {
+                                        sb.AppendFormat(@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{0}.btw"" /D=""%Trigger File Name%"" /PRN=""{1}"" /R=3 /P /C={2}", useAltTemplate.AlterLabel, dat.PrinterName, dat.Qty.ToString());
+                                        sb.AppendLine();
+                                        sb.AppendLine("%END%");
+                                        sb.AppendFormat("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\"",
+                                            im.ItemFull, im.GTIN.Substring(0, 13), cooo, PrintDate, im.ItemDesc, useAltTemplate.CustProdId, secondBcString,
+                                            lilDigits, bigDigits, useAltTemplate.ShowJulianNoSellby == true ? "" : dat.UsebyLang, dat.CrewNum);
+                                    }
+                                    else if (useAltTemplate.AlterLabel == "USFoods_Opt_Format")
+                                    {
+                                        int firstDigit = im.ItemDesc.IndexOfAny("0123456789".ToCharArray());
+                                        if (firstDigit > 5) firstDigit -= 1;
+                                        string itemDescMinusNumerical = im.ItemDesc.Substring(0, firstDigit);
+                                        sb.Append($@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{useAltTemplate.AlterLabel}.btw"" /D=""%Trigger File Name%"" /PRN=""{dat.PrinterName}"" /R=3 /P /C={dat.Qty.ToString()}");
+                                        sb.AppendLine();
+                                        sb.AppendLine("%END%");
+                                        sb.Append($@"""{ im.ItemFull}"",""{ im.GTIN.Substring(0, 13)}"",""{cooo}"",""{PrintDateFixed}"",""{itemDescMinusNumerical}"",""{useAltTemplate.CustProdId}"",""{secondBcString}"",""{lilDigits}"",""{bigDigits}"",""{dat.UsebyLang}"",""{dat.CrewNum}"",""{wtStr}""");
+                                    }
+                                    else if (useAltTemplate.AlterLabel == "Base4by2designXtraNote")
+                                    {
+                                        int firstDigit = im.ItemDesc.IndexOfAny("0123456789".ToCharArray());
+                                        if (firstDigit > 5) firstDigit -= 1;
+                                        string itemDescMinusNumerical = im.ItemDesc.Substring(0, firstDigit);
+                                        sb.Append($@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{useAltTemplate.AlterLabel}.btw"" /D=""%Trigger File Name%"" /PRN=""{dat.PrinterName}"" /R=3 /P /C={dat.Qty.ToString()}");
+                                        sb.AppendLine();
+                                        sb.AppendLine("%END%");
+                                        sb.AppendFormat("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\",\"{12}\",\"{13}\"",
+                                            im.ItemFull, im.GTIN.Substring(0, 13), cooo, PrintDate, im.ItemDesc, dat.SrcAddress, secondBcString, im.BrandFull,
+                                            dat.Shift, lilDigits, bigDigits, dat.UsebyLang, im.WalmartCode, dat.CrewNum);
+                                    }
+                                    else
+                                    {
+                                        sb.AppendFormat(@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{0}.btw"" /D=""%Trigger File Name%"" /PRN=""{1}"" /R=3 /P /C={2}", btwFile, dat.PrinterName, dat.Qty.ToString());
+                                        sb.AppendLine();
+                                        sb.AppendLine("%END%");
+                                        sb.AppendFormat("\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\",\"{5}\",\"{6}\",\"{7}\",\"{8}\",\"{9}\",\"{10}\",\"{11}\",\"{12}\",\"{13}\"",
+                                            im.ItemFull, im.GTIN.Substring(0, 13), cooo, fakeJulian, im.ItemDesc, dat.SrcAddress, secondBcString, im.BrandFull,
+                                            dat.Shift, lilDigits, bigDigits, "", im.WalmartCode, dat.CrewNum);
+                                    }
+                                }
+                            }
 
-                        sb.AppendLine();
-                        try
-                        {
-                            File.WriteAllText(@"\\mann-forms\Data\FileFromMannLabels.csv", sb.ToString());
-                            return Ok();
-                        }
-                        catch (Exception ex)
-                        {
-                            return BadRequest(ex.Message);
-                        }
-                        finally
-                        {
-                            db.Dispose();
+                            sb.AppendLine();
+                            try
+                            {
+                                File.WriteAllText(@"\\mann-forms\Data\FileFromMannLabels.csv", sb.ToString());
+                                return Ok();
+                            }
+                            catch (Exception ex)
+                            {
+                                return BadRequest(ex.Message);
+                            }
+                            finally
+                            {
+                                db.Dispose();
+                            }
                         }
                     }
-                }
-                else
-                {
-                    return BadRequest("Item Not found");
+                    else
+                    {
+                        return BadRequest("Item Not found");
+                    }
                 }
             }
         }

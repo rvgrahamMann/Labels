@@ -3,7 +3,7 @@
 <head>
     <title>Mann Labels</title>
     <meta charset="utf-8" />
-<!--    <meta http-equiv="X-UA-Compatible" content="IE=edge" />-->
+    <!--    <meta http-equiv="X-UA-Compatible" content="IE=edge" />-->
     <link rel="shortcut icon" href="http://manninternal/Paccum/favicon2.ico" type="image/vnd.microsoft.icon" />
     <link href="Scripts/kendo.common.css" rel="stylesheet" />
     <link href="Scripts/kendo.blueopal.min.css" rel="stylesheet" />
@@ -21,10 +21,10 @@
             background-color: #b9d2df;
         }
 
-        .k-grid  .k-grid-header  .k-header {
+        .k-grid .k-grid-header .k-header {
             white-space: normal;
         }
-        
+
         .k-grid-content {
             overflow-y: hidden;
         }
@@ -50,6 +50,20 @@
         tr.k-footer-template td {
             background-color: #d0e4ed;
         }
+
+        .auto-style1 {
+            text-align: right;
+            padding-right: 3px;
+            height: 36px;
+        }
+
+        .auto-style2 {
+            text-align: left;
+            height: 36px;
+        }
+        /*#tblPrevLabelDetail2 td{
+            border: 1px solid black;
+        }*/
     </style>
 </head>
 <body>
@@ -100,16 +114,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="tdRights" style="width: 120px; padding: 5px 8px;">
-                            User Name:
+                        <td class="tdRights" style="width: 120px; padding: 5px 8px;">User Name:
                         </td>
                         <td class="tdLefts" style="width: 150px; padding: 5px 8px;">
                             <input type="text" id="txUserName" class="k-textbox" autocomplete="off" />
                         </td>
                     </tr>
                     <tr>
-                        <td class="tdRights" style="width: 120px; padding: 5px 8px;">
-                            Password:
+                        <td class="tdRights" style="width: 120px; padding: 5px 8px;">Password:
                         </td>
                         <td class="tdLefts" style="width: 150px; padding: 5px 8px;">
                             <input type="password" id="txPassword" class="k-textbox" />
@@ -129,44 +141,40 @@
                 <tbody>
                     <tr>
                         <td class="tdLefts" style="padding: 5px 8px;" colspan="2">
-                            <p>Please use your REAL email so we can help you if needed.</p><p>Password and Logon: Minimum 4 characters, DO NOT use your windows password.</p>
+                            <p>Please use your REAL email so we can help you if needed.</p>
+                            <p>Password and Logon: Minimum 4 characters, DO NOT use your windows password.</p>
                         </td>
                     </tr>
                     <tr>
-                        <td class="tdRights" style="width: 250px; padding: 5px 8px;">
-                            Logon:
+                        <td class="tdRights" style="width: 250px; padding: 5px 8px;">Logon:
                         </td>
                         <td class="tdLefts" style="width: 325px; padding: 5px 8px;">
                             <input type="text" id="txUserNameReg" class="k-textbox" autocomplete="off" />
                         </td>
                     </tr>
                     <tr>
-                        <td class="tdRights" style="width: 120px; padding: 5px 8px;">
-                            Password:
+                        <td class="tdRights" style="width: 120px; padding: 5px 8px;">Password:
                         </td>
                         <td class="tdLefts" style="width: 150px; padding: 5px 8px;">
                             <input type="password" id="txPasswordReg" class="k-textbox" />
                         </td>
                     </tr>
                     <tr>
-                        <td class="tdRights" style="width: 120px; padding: 5px 8px;">
-                            Confirm Password:
+                        <td class="tdRights" style="width: 120px; padding: 5px 8px;">Confirm Password:
                         </td>
                         <td class="tdLefts" style="width: 150px; padding: 5px 8px;">
                             <input type="password" id="txPasswordReg2" class="k-textbox" />
                         </td>
                     </tr>
                     <tr>
-                        <td class="tdRights" style="width: 120px; padding: 5px 8px;">
-                            Mann Packing Email Address:
+                        <td class="tdRights" style="width: 120px; padding: 5px 8px;">Mann Packing Email Address:
                         </td>
                         <td class="tdLefts" style="padding: 5px 8px;">
                             <input type="text" id="txEmail" style="width: 325px;" class="k-textbox" />
                         </td>
                     </tr>
                     <tr>
-                        <td class="tdRights" style="width: 120px; padding: 5px 8px;">
-                            Printer you will use:
+                        <td class="tdRights" style="width: 120px; padding: 5px 8px;">Printer you will use:
                         </td>
                         <td class="tdLefts" style="padding: 5px 8px;">
                             <input type="text" id="txPrinter" style="width: 200px;" />
@@ -181,7 +189,8 @@
                 </tbody>
             </table>
         </div>
-        <div id="divMainContent" style="display: none;"> <!-- style="border: 1px solid red;"-->
+        <div id="divMainContent" style="display: none;">
+            <!-- style="border: 1px solid red;"-->
             <!--Labels:
             <input type="button" id="cmPrintTest" class="k-button" value="Print test" onclick="TestPrint()" />-->
             <div id="divItemsList"></div>
@@ -194,54 +203,52 @@
                     <tbody>
                         <tr style="border-top: 1px solid rgb(194, 213, 221); border-left: 1px solid rgb(194, 213, 221); border-right: 1px solid rgb(194, 213, 221);">
                             <td class="tdRights" style="width: 220px;"></td>
-                            <td class="tdLefts" style="width: 330px; font-weight: bold;">
-                                Not Editable
+                            <td class="tdLefts" style="width: 330px; font-weight: bold;">Not Editable
                             </td>
                         </tr>
                         <tr style="border-left: 1px solid rgb(194, 213, 221); border-right: 1px solid rgb(194, 213, 221);">
-                            <td class="tdRights" style="width: 220px;">
-                                Item:
+                            <td class="tdRights" style="width: 220px;">Item:
                             </td>
                             <td class="tdLefts" style="width: 330px;">
                                 <input type="text" id="txPrevItem" readonly="readonly" class="k-textbox" style="width: 80px;" />
                             </td>
                         </tr>
                         <tr style="border-left: 1px solid rgb(194, 213, 221); border-right: 1px solid rgb(194, 213, 221);">
-                            <td class="tdRights">
-                                Description:
+                            <td class="tdRights">Description:
                             </td>
                             <td class="tdLefts">
                                 <input type="text" id="txPrevDesc" readonly="readonly" class="k-textbox" style="width: 320px" />
                             </td>
                         </tr>
                         <tr style="border-left: 1px solid rgb(194, 213, 221); border-right: 1px solid rgb(194, 213, 221);">
-                            <td class="tdRights">
-                                Branding:
+                            <td class="tdRights">Branding:
                             </td>
                             <td class="tdLefts">
                                 <input type="text" id="txPrevBrand" readonly="readonly" class="k-textbox" style="width: 320px" />
                             </td>
                         </tr>
                         <tr style="border-left: 1px solid rgb(194, 213, 221); border-right: 1px solid rgb(194, 213, 221);">
-                            <td class="tdRights">
-                                GTIN Code:
+                            <td class="tdRights">GTIN Code:
                             </td>
                             <td class="tdLefts">
                                 <input type="text" id="txPrevGTIN" readonly="readonly" class="k-textbox" style="width: 320px" />
                             </td>
                         </tr>
                         <tr style="border-left: 1px solid rgb(194, 213, 221); border-right: 1px solid rgb(194, 213, 221);">
-                            <td class="tdRights">
-                                Wal-Mart Code:
+                            <td class="tdRights">Wal-Mart Code:
                             </td>
                             <td class="tdLefts">
                                 <input type="text" id="txPrevWMCode" readonly="readonly" class="k-textbox" style="width: 320px" />
                             </td>
                         </tr>
                         <tr style="border-left: 1px solid rgb(194, 213, 221); border-right: 1px solid rgb(194, 213, 221); border-bottom: 1px solid rgb(194, 213, 221); font-size: 5px;">
-                        <td>&nbsp;</td><td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
                         </tr>
-                        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
                         <tr>
                             <td class="tdRights" style="width: 220px;"></td>
                             <td class="tdLefts" style="width: 330px; font-weight: bold;">
@@ -249,49 +256,48 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdRights">
-                                Shipped From:
+                            <td class="tdRights">Shipped From:
                             </td>
                             <td class="tdLefts">
-                                <input type="text" style="width: 325px" id="ddlSrcAddress"/>
+                                <input type="text" style="width: 325px" id="ddlSrcAddress" />
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdRights">
-                                Country of Origin:
+                            <td class="tdRights">Country of Origin:
                             </td>
                             <td class="tdLefts">
                                 <input type="text" style="width: 140px" id="ddlCoo" />
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdRights">
-                                Exp. Date:
+                            <td class="tdRights">Exp. Date:
                             </td>
                             <td class="tdLefts">
                                 <input type="text" style="width: 140px" id="txExp" />
+                                &nbsp;&nbsp;<input type="checkbox" id="ckNoDate" />
+                                <label for="ckNoDate" id="lbNoDate">Don't Print Date</label>
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdRights">
-                                Use By Language:
+                            <td class="tdRights">Use By Language:
                             </td>
-                            <td class="tdLefts">
+                            <td class="tdLefts" style="height: 38px; vertical-align: middle;">
                                 <input type="text" class="k-textbox" style="width: 140px" id="txSellLang" />
+                                <!--                                &nbsp;&nbsp;
+                                <input type="checkbox" id="ckNewWMLabel" />
+                                <div style="display: inline-block; position: relative; top: 10px;"><label for="ckNewWMLabel" id="lbNewWMLabel">Use WM label<br />with harvest date</label></div>-->
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdRights">
-                                Crew Number:
+                            <td class="auto-style1">Crew Number:
                             </td>
-                            <td class="tdLefts">
+                            <td class="auto-style2">
                                 <input type="text" style="width: 40px;" id="txCrewNum" />
                                 <span style="font-size: 20px; color: red; font-weight: bold">*</span>&nbsp;optional, 2 digits
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdRights" style="margin-top: 8px; margin-bottom: 8px;">
-                                Shift:
+                            <td class="tdRights" style="margin-top: 8px; margin-bottom: 8px;">Shift:
                             </td>
                             <td class="tdLefts">
                                 <label>
@@ -304,12 +310,11 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="tdRights">
-                                Print Qty:
+                            <td class="tdRights">Print Qty:
                             </td>
                             <td class="tdLefts">
                                 <input type="text" style="width: 80px" id="txQty" />
-                                <div style=" display: inline-block; float: right;">
+                                <div style="display: inline-block; float: right;">
                                     <input title="For incrementing the julian in the barcode value by one, don't check if you don't know what this means" type="checkbox" id="ckJulianPlusOne" />
                                     <label title="For incrementing the julian in the barcode value by one, don't check if you don't know what this means" for="ckJulianPlusOne">Julian + 1</label>&nbsp;&nbsp;&nbsp;&nbsp;
                                 </div>
@@ -326,10 +331,145 @@
                 </table>
             </div>
         </script>
-        </form>
-    </body>
+        <script id="printPrevTemplateWalmart" type="text/html">
+            <div id="divInPrintPrevTemplWalmart" style="text-align: center; width: 530px;">
+                <input type="hidden" id="txItemID" />
+                <table id="tblPrevLabelDetail" class="tblDetails" style="width: 100%; border-collapse: collapse">
+                    <tbody>
+                        <tr style="border-top: 1px solid rgb(194, 213, 221); border-left: 1px solid rgb(194, 213, 221); border-right: 1px solid rgb(194, 213, 221);">
+                            <td class="tdRights" style="width: 220px;"></td>
+                            <td class="tdLefts" style="width: 330px; font-weight: bold;">Not Editable
+                            </td>
+                        </tr>
+                        <tr style="border-left: 1px solid rgb(194, 213, 221); border-right: 1px solid rgb(194, 213, 221);">
+                            <td class="tdRights" style="width: 220px;">Item:
+                            </td>
+                            <td class="tdLefts" style="width: 330px;">
+                                <input type="text" id="txPrevItem" readonly="readonly" class="k-textbox" style="width: 80px;" />
+                            </td>
+                        </tr>
+                        <tr style="border-left: 1px solid rgb(194, 213, 221); border-right: 1px solid rgb(194, 213, 221);">
+                            <td class="tdRights">Description:
+                            </td>
+                            <td class="tdLefts">
+                                <input type="text" id="txPrevDesc" readonly="readonly" class="k-textbox" style="width: 320px" />
+                            </td>
+                        </tr>
+                        <tr style="border-left: 1px solid rgb(194, 213, 221); border-right: 1px solid rgb(194, 213, 221);">
+                            <td class="tdRights">Branding:
+                            </td>
+                            <td class="tdLefts">
+                                <input type="text" id="txPrevBrand" readonly="readonly" class="k-textbox" style="width: 320px" />
+                            </td>
+                        </tr>
+                        <tr style="border-left: 1px solid rgb(194, 213, 221); border-right: 1px solid rgb(194, 213, 221);">
+                            <td class="tdRights">GTIN Code:
+                            </td>
+                            <td class="tdLefts">
+                                <input type="text" id="txPrevGTIN" readonly="readonly" class="k-textbox" style="width: 320px" />
+                            </td>
+                        </tr>
+                        <tr style="border-left: 1px solid rgb(194, 213, 221); border-right: 1px solid rgb(194, 213, 221);">
+                            <td class="tdRights">Wal-Mart Code:
+                            </td>
+                            <td class="tdLefts">
+                                <input type="text" id="txPrevWMCode" readonly="readonly" class="k-textbox" style="width: 320px" />
+                            </td>
+                        </tr>
+                        <tr style="border-left: 1px solid rgb(194, 213, 221); border-right: 1px solid rgb(194, 213, 221); border-bottom: 1px solid rgb(194, 213, 221); font-size: 5px;">
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td class="tdRights" style="width: 220px;"></td>
+                            <td class="tdLefts" style="width: 330px; font-weight: bold;">
+                                <span style="position: relative; top: -6px;">Fill all Below</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdRights">Shipped From:
+                            </td>
+                            <td class="tdLefts">
+                                <input type="text" style="width: 325px" id="ddlSrcAddress" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdRights">Country of Origin:
+                            </td>
+                            <td class="tdLefts">
+                                <input type="text" style="width: 140px" id="ddlCoo" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdRights">Pack Date:
+                            </td>
+                            <td class="tdLefts">
+                                <input type="text" style="width: 140px" id="txExp" />
+                                <!--&nbsp;&nbsp;<input type="checkbox" id="ckNoDate2" />
+                                <label for="ckNoDate" id="lbNoDate2">Don't Print Date</label>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdRights">Use By Days:
+                            </td>
+                            <td class="tdLefts" style="height: 38px; vertical-align: middle;">
+                                <input type="text" style="width: 65px; top: 0px; left: 0px;" id="txUseByDays" />
+                                <!--                                &nbsp;&nbsp;
+                                <input type="checkbox" id="ckNewWMLabel" />
+                                <div style="display: inline-block; position: relative; top: 10px;"><label for="ckNewWMLabel" id="lbNewWMLabel">Use WM label<br />with harvest date</label></div>-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="auto-style1">Crew Number:
+                            </td>
+                            <td class="auto-style2">
+                                <input type="text" style="width: 40px;" id="txCrewNum" />
+                                <span style="font-size: 20px; color: red; font-weight: bold">*</span>&nbsp;optional, 2 digits
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdRights" style="margin-top: 8px; margin-bottom: 8px;">Shift:
+                            </td>
+                            <td class="tdLefts">
+                                <label>
+                                    <input type="radio" id="ckDayShift" value="1" name="shifts" style="margin-top: 8px; margin-bottom: 8px;" data-bind="checked: Shift" />&nbsp;Day
+                                </label>
+                                &nbsp;&nbsp;
+                                <label>
+                                    <input type="radio" id="ckNightShift" value="2" name="shifts" style="margin-top: 8px; margin-bottom: 8px;" data-bind="checked: Shift" />&nbsp;Night
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tdRights">Print Qty:
+                            </td>
+                            <td class="tdLefts">
+                                <input type="text" style="width: 80px" id="txQty" />
+                                <!--<div style=" display: inline-block; float: right;">
+                                    <input title="For incrementing the julian in the barcode value by one, don't check if you don't know what this means" type="checkbox" id="ckJulianPlusOne" />
+                                    <label title="For incrementing the julian in the barcode value by one, don't check if you don't know what this means" for="ckJulianPlusOne">Julian + 1</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                </div>-->
+                            </td>
+                        </tr>
+                        <tr style="height: 50px; vertical-align: bottom; vertical-align: middle;">
+                            <td class="tdRights">&nbsp;</td>
+                            <td style="text-align: right;">
+                                <input type="button" style="margin-bottom: 14px !important;" class="k-button" id="cmCloseLabel" value="Close" />&nbsp;&nbsp;&nbsp;
+                                <input type="button" style="margin-bottom: 14px !important;" class="k-button" id="cmPrintLabel" value="Print the Label(s)" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </script>
+    </form>
+</body>
 </html>
-        <!--<script id="newLabelTemplate" type="text/html">
+<!--<script id="newLabelTemplate" type="text/html">
             <div id="divInNewlabelTempl" style="text-align: center; width: 530px;">
                 <table id="tbllabelDetail" class="tblDetails" style="width: 100%; border-collapse: collapse">
                     <tbody>
@@ -458,7 +598,7 @@
             </div>
         </script>-->
 
-        <!--<script id="labelTemplate" type="text/html">
+<!--<script id="labelTemplate" type="text/html">
             <div id="divInlabelTempl-#: Id #" style="text-align: center; width: 530px;">
                 <input type="hidden" id="txUsrID" data-bind="value: id" />
                 <table id="tbllabelDetail" class="tblDetails" style="width: 100%; border-collapse: collapse">

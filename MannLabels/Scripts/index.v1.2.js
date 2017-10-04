@@ -69,6 +69,7 @@ function FillLists(dat) {
 
 //#region " Label Code "
 
+// #region old for ref
 ////OLD method
 //function OpenNewLabel() {
 //    var tomorrow = new Date();
@@ -168,6 +169,8 @@ function FillLists(dat) {
 //        $('#divNewLabel').getKendoWindow().close();
 //    });
 //}
+//#endregion
+
 
 function FillItemsList() {
     var exisGrid = $('#divItemsList').getKendoGrid();
@@ -324,7 +327,7 @@ function FillItemsList() {
     });
 }
 
-function SendPrintJob(data, srcAddr, dPick, dCoo, dQty, shif, selLang, crewNum, incJulian) {
+function SendPrintJob(data, srcAddr, dPick, dCoo, dQty, shif, selLang, crewNum, incJulian, noDate, isWm, useByDays, walmartCode) {
 
     var dat = {
         'Id': data.ItemFull,
@@ -336,7 +339,11 @@ function SendPrintJob(data, srcAddr, dPick, dCoo, dQty, shif, selLang, crewNum, 
         'CrewNum': crewNum,
         'SrcAddress': srcAddr,
         'PrinterName': usrPrinter,
-        'JulianPlusOne': incJulian
+        'JulianPlusOne': incJulian,
+        'NoDate': noDate,
+        'IsWM': isWm,
+        'UseByDays': useByDays,
+        'WalmartCode': walmartCode
     };
 
     $.ajax({
@@ -354,7 +361,7 @@ function SendPrintJob(data, srcAddr, dPick, dCoo, dQty, shif, selLang, crewNum, 
 }
 
 function PrintLabel(passedData) {
-
+    var isWM = passedData['BrandAbbrv'] === 'WM';
     var tomorrow = new Date();
     //tomorrow.setDate(tomorrow.getDate() + 1);
     var kendoWindow = $('<div id="divPrintdetail"></div>')
@@ -370,36 +377,58 @@ function PrintLabel(passedData) {
         }
     });
 
-    $(kendoWindow).data("kendoWindow")
-        .content($('#printPrevTemplate').html())
-        .center()
-        .open();
+    if (isWM) {
+        $(kendoWindow).data("kendoWindow")
+            .content($('#printPrevTemplateWalmart').html())
+            .center()
+            .open();
+    }
+    else {
+        $(kendoWindow).data("kendoWindow")
+            .content($('#printPrevTemplate').html())
+            .center()
+            .open();
+    }
+
 
 
     kendoWindow
         .find("#cmPrintLabel")
-            .click(function () {
-                var dPick = kendoWindow.find('#txExp').getKendoDatePicker().value();
-                if (dPick === null) {
-                    alert("Date is required");
-                    return;
-                }
-                var shif = $('#tblPrevLabelDetail').find('input[type=radio][name=shifts]:checked').get(0);
-                if (shif === undefined) {
-                    alert("Shift is required");
-                    return;
-                }
-                else {
-                    shif = $('#tblPrevLabelDetail').find('input[type=radio][name=shifts]:checked').get(0).value;
-                }
-                var cooVal = kendoWindow.find('#ddlCoo').getKendoDropDownList().value();
-                var qty = kendoWindow.find('#txQty').getKendoNumericTextBox().value();
-                var sellLanguage = kendoWindow.find('#txSellLang').val();
-                var crewNum = kendoWindow.find('#txCrewNum').getKendoMaskedTextBox().value();
-                var srcAddr = kendoWindow.find('#ddlSrcAddress').getKendoDropDownList().text();
-                var incJulian = (kendoWindow.find('#ckJulianPlusOne')[0]).checked;
-                SendPrintJob(passedData, srcAddr, dPick, cooVal, qty, shif, sellLanguage, crewNum, incJulian);
-            });
+        .click(function () {
+            var useByDays = -1;
+            var noDate = false;
+            var incJulian = false;
+            if (isWM) {
+                useByDays = kendoWindow.find('#txUseByDays').getKendoNumericTextBox().value();
+            }
+            else {
+                noDate = (kendoWindow.find('#ckNoDate')[0]).checked;
+                incJulian = (kendoWindow.find('#ckJulianPlusOne')[0]).checked;
+            }
+
+            var dPick = kendoWindow.find('#txExp').getKendoDatePicker().value();
+            var walmartCode = kendoWindow.find('#txPrevWMCode').val();
+            if (dPick === null && noDate === false) {
+                alert("Date is required");
+                return;
+            }
+
+            var shif = $('#tblPrevLabelDetail').find('input[type=radio][name=shifts]:checked').get(0);
+            if (shif === undefined) {
+                alert("Shift is required");
+                return;
+            }
+            else {
+                shif = $('#tblPrevLabelDetail').find('input[type=radio][name=shifts]:checked').get(0).value;
+            }
+            var cooVal = kendoWindow.find('#ddlCoo').getKendoDropDownList().value();
+            var qty = kendoWindow.find('#txQty').getKendoNumericTextBox().value();
+            var sellLanguage = kendoWindow.find('#txSellLang').val();
+            var crewNum = kendoWindow.find('#txCrewNum').getKendoMaskedTextBox().value();
+            var srcAddr = kendoWindow.find('#ddlSrcAddress').getKendoDropDownList().text();
+            if (sellLanguage === '') sellLanguage = 'none';
+            SendPrintJob(passedData, srcAddr, dPick, cooVal, qty, shif, sellLanguage, crewNum, incJulian, noDate, isWM, useByDays, walmartCode);
+        });
 
     kendoWindow.find("#txPrevItem").val(passedData.ItemFull);
     kendoWindow.find("#txPrevDesc").val(passedData.ItemDesc);
@@ -439,7 +468,14 @@ function PrintLabel(passedData) {
     kendoWindow.find('#txCrewNum').kendoMaskedTextBox({
         mask: "00"
     });
-
+    if (isWM) {
+        kendoWindow.find('#txUseByDays').kendoNumericTextBox({
+            format: "#",
+            decimals: 0,
+            min: 0,
+            value: 0
+        });
+    }
 }
 
 //#endregion
