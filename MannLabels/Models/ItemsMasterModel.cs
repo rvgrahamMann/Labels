@@ -13,6 +13,7 @@ namespace MannLabels.Models
         public string BrandFull { get; set; }
         public string GTIN { get; set; }
         public string WalmartCode { get; set; }
+        public bool UseWMFormat { get; set; }
 
     }
 }

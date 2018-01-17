@@ -82,34 +82,40 @@ namespace MannLabels.Controllers
                     }
                 }
             }
+            List<string> useWMList = new List<string>();
+            using (LabelPrintModels dbMann = new LabelPrintModels())
+            {
+               useWMList = dbMann.AltLabelItems.Where(p => p.AlterLabel == "WM").Select(p => p.ItemNum).ToList();
+            }
 
             using (JDE_PRODUCTIONEntities db = new JDE_PRODUCTIONEntities())
             {
                 //db.Database.Log = s => System.Diagnostics.Debug.WriteLine(s);
                 DataSourceResult dr = (from x in db.F4101
-                    where x.IMLITM.Length == 5
-                    && x.IMSRP4 != ""
-                    && x.IMSRP8.ToLower() == "fgd"
-                    && x.IMAITM.Length >= 14
-                    orderby x.IMLITM
-                    select new ItemsMasterModel
-                    {
-                        ItemFull = x.IMLITM.Trim(),
-                        BrandAbbrv = x.IMSRP4.Trim(),
-                        BrandFull = (from z in db.F0005 where z.DRSY == "41" && z.DRRT.ToUpper() == "S4" && z.DRKY.Trim() == x.IMSRP4.Trim() select z.DRDL01.Trim()).FirstOrDefault(),
-                        ItemDesc = x.IMSRTX.Trim(),
-                        GTIN = x.IMAITM.Trim().Substring(0, 14),
-                        WalmartCode = (from y in db.F4104
-                            where y.IVLITM.Trim() == x.IMLITM && y.IVXRT.ToUpper() == "UC"
-                            select y.IVCITM.Trim()).FirstOrDefault() != null ? (from y in db.F4104
-                                where y.IVLITM.Trim() == x.IMLITM && y.IVXRT.ToUpper() == "UC"
-                                select y.IVCITM.Trim()).FirstOrDefault() : ""
-                        //WalmartCode = x.IMSRP4.Trim() == "WM" ? ((from y in db.F4104 //BG removed Wal-Mart filter
-                        //    where y.IVLITM.Trim() == x.IMLITM && y.IVXRT.ToUpper() == "UC"
-                        //    select y.IVCITM.Trim()).FirstOrDefault() != null ? (from y in db.F4104
-                        //        where y.IVLITM.Trim() == x.IMLITM && y.IVXRT.ToUpper() == "UC"
-                        //        select y.IVCITM.Trim()).FirstOrDefault() : "") : ""
-                    }).ToDataSourceResult(request.Take, request.Skip, request.Sort, request.Filter);
+                                       where x.IMLITM.Length == 5
+                                       && x.IMSRP4 != ""
+                                       && x.IMSRP8.ToLower() == "fgd"
+                                       && x.IMAITM.Length >= 14
+                                       orderby x.IMLITM
+                                       select new ItemsMasterModel
+                                       {
+                                           ItemFull = x.IMLITM.Trim(),
+                                           BrandAbbrv = x.IMSRP4.Trim(),
+                                           BrandFull = (from z in db.F0005 where z.DRSY == "41" && z.DRRT.ToUpper() == "S4" && z.DRKY.Trim() == x.IMSRP4.Trim() select z.DRDL01.Trim()).FirstOrDefault(),
+                                           ItemDesc = x.IMSRTX.Trim(),
+                                           GTIN = x.IMAITM.Trim().Substring(0, 14),
+                                           WalmartCode = (from y in db.F4104
+                                                          where y.IVLITM.Trim() == x.IMLITM && y.IVXRT.ToUpper() == "UC"
+                                                          select y.IVCITM.Trim()).FirstOrDefault() != null ? (from y in db.F4104
+                                                                                                              where y.IVLITM.Trim() == x.IMLITM && y.IVXRT.ToUpper() == "UC"
+                                                                                                              select y.IVCITM.Trim()).FirstOrDefault() : "",
+                                           UseWMFormat = useWMList.Contains(x.IMLITM.Trim())
+                                           //WalmartCode = x.IMSRP4.Trim() == "WM" ? ((from y in db.F4104 //BG removed Wal-Mart filter
+                                           //    where y.IVLITM.Trim() == x.IMLITM && y.IVXRT.ToUpper() == "UC"
+                                           //    select y.IVCITM.Trim()).FirstOrDefault() != null ? (from y in db.F4104
+                                           //        where y.IVLITM.Trim() == x.IMLITM && y.IVXRT.ToUpper() == "UC"
+                                           //        select y.IVCITM.Trim()).FirstOrDefault() : "") : ""
+                                       }).ToDataSourceResult(request.Take, request.Skip, request.Sort, request.Filter);
 
                 return Ok(dr);
             }
@@ -254,7 +260,7 @@ namespace MannLabels.Controllers
             }
             else
             {
-                dt = DateTime.Today; //TODO fix pack date not to be incremented when UseByDays > 0
+                dt = DateTime.Today;
             }
             DateTime packDate = dt;
             string shift = dat.Shift;
@@ -264,8 +270,8 @@ namespace MannLabels.Controllers
             decimal kgConv = 0m;
             string wtStr = "";
             string fullItem = dat.Id.ToString().PadLeft(5, '0');
-            bool incrementJulian = dat.JulianPlusOne; //this is new
-            string fakeJulian = incrementJulian ? (DateTime.Today.DayOfYear + 1).ToString() : DateTime.Today.DayOfYear.ToString();
+            bool incrementJulian = dat.JulianPlusOne;
+            string fakeJulian = incrementJulian ? ((DateTime.Today.DayOfYear) +1).ToString().PadLeft(3, '0') : DateTime.Today.DayOfYear.ToString().PadLeft(3, '0');
             bool isWalMart = dat.IsWm;
             int useByDays = dat.UseByDays;
             string bCodeDateVal = "";
@@ -304,6 +310,7 @@ namespace MannLabels.Controllers
                         string voicePickCode = VoiceCode.Compute(im.GTIN, secondBcString, null);
                         string lilDigits = voicePickCode.Substring(0, 2);
                         string bigDigits = voicePickCode.Substring(2, 2);
+                        if (dat.UseByDays > 0) packDate = packDate.AddDays(dat.UseByDays);
                         string PrintDate = packDate.ToString("MMM dd"); //useAltTemplate != null && useAltTemplate.ShowJulianNoSellby == true ? fakeJulian : dt.ToString("MMM dd");
                         string PrintDateFixed = dt.ToString("MMM dd");
                         string btwFile = dat.UseByDays > 0 ? 
@@ -408,7 +415,8 @@ namespace MannLabels.Controllers
                         string lilDigits = voicePickCode.Substring(0, 2);
                         string bigDigits = voicePickCode.Substring(2, 2);
                         string PrintDate = useAltTemplate != null && useAltTemplate.ShowJulianNoSellby == true ? fakeJulian : dt.ToString("MMM dd");
-                        string PrintDateFixed = dt.ToString("MMM dd");
+                        string PrintDateFixed = dt.ToString("MM/dd/yy");
+                        string PrintDateFixedShort = dt.ToString("MMMdd");
                         bool item = im.WalmartCode != "";
                         string btwFile = item ? "Base4by2WalMartdesign" : "Base4by2design";
                         string cooo = db.COO_List.FirstOrDefault(p => p.idx == dat.CooId).LongName;
@@ -463,7 +471,37 @@ namespace MannLabels.Controllers
                                         sb.Append($@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{useAltTemplate.AlterLabel}.btw"" /D=""%Trigger File Name%"" /PRN=""{dat.PrinterName}"" /R=3 /P /C={dat.Qty.ToString()}");
                                         sb.AppendLine();
                                         sb.AppendLine("%END%");
+                                        sb.Append($@"""{ im.ItemFull}"",""{ im.GTIN.Substring(0, 13)}"",""{cooo}"",""{PrintDateFixedShort}"",""{itemDescMinusNumerical}"",""{useAltTemplate.CustProdId}"",""{secondBcString}"",""{lilDigits}"",""{bigDigits}"",""{PrintDateFixed}"",""{dat.CrewNum}"",""{wtStr}""");
+                                    }
+                                    else if (useAltTemplate.AlterLabel == "USFoods_Opt_Format_2")
+                                    {
+                                        int firstDigit = im.ItemDesc.IndexOfAny("0123456789".ToCharArray());
+                                        if (firstDigit > 5) firstDigit -= 1;
+                                        string itemDescMinusNumerical = im.ItemDesc.Substring(0, firstDigit);
+                                        sb.Append($@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{useAltTemplate.AlterLabel}.btw"" /D=""%Trigger File Name%"" /PRN=""{dat.PrinterName}"" /R=3 /P /C={dat.Qty.ToString()}");
+                                        sb.AppendLine();
+                                        sb.AppendLine("%END%");
+                                        sb.Append($@"""{ im.ItemFull}"",""{ im.GTIN.Substring(0, 13)}"",""{cooo}"",""{PrintDateFixedShort}"",""{itemDescMinusNumerical}"",""{useAltTemplate.CustProdId}"",""{secondBcString}"",""{lilDigits}"",""{bigDigits}"",""{dat.UsebyLang}"",""{dat.CrewNum}"",""{wtStr}""");
+                                    }
+                                    else if (useAltTemplate.AlterLabel == "USFoods_Opt_Format-3")
+                                    {
+                                        int firstDigit = im.ItemDesc.IndexOfAny("0123456789".ToCharArray());
+                                        if (firstDigit > 5) firstDigit -= 1;
+                                        string itemDescMinusNumerical = im.ItemDesc.Substring(0, firstDigit);
+                                        sb.Append($@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{useAltTemplate.AlterLabel}.btw"" /D=""%Trigger File Name%"" /PRN=""{dat.PrinterName}"" /R=3 /P /C={dat.Qty.ToString()}");
+                                        sb.AppendLine();
+                                        sb.AppendLine("%END%");
                                         sb.Append($@"""{ im.ItemFull}"",""{ im.GTIN.Substring(0, 13)}"",""{cooo}"",""{PrintDateFixed}"",""{itemDescMinusNumerical}"",""{useAltTemplate.CustProdId}"",""{secondBcString}"",""{lilDigits}"",""{bigDigits}"",""{dat.UsebyLang}"",""{dat.CrewNum}"",""{wtStr}""");
+                                    }
+                                    else if (useAltTemplate.AlterLabel == "USFoods_Opt_Format_3BG")
+                                    {
+                                        int firstDigit = im.ItemDesc.IndexOfAny("0123456789".ToCharArray());
+                                        if (firstDigit > 5) firstDigit -= 1;
+                                        string itemDescMinusNumerical = im.ItemDesc.Substring(0, firstDigit);
+                                        sb.Append($@"%BTW% /AF=""C:\Bottomline Technologies\BarTender\Forms\{useAltTemplate.AlterLabel}.btw"" /D=""%Trigger File Name%"" /PRN=""{dat.PrinterName}"" /R=3 /P /C={dat.Qty.ToString()}");
+                                        sb.AppendLine();
+                                        sb.AppendLine("%END%");
+                                        sb.Append($@"""{ im.ItemFull}"",""{ im.GTIN.Substring(0, 13)}"",""{cooo}"",""{PrintDateFixed}"",""{itemDescMinusNumerical}"",""{useAltTemplate.CustProdId}"",""{secondBcString}"",""{lilDigits}"",""{bigDigits}"",""{PrintDateFixed}"",""{dat.CrewNum}"",""{wtStr}""");
                                     }
                                     else if (useAltTemplate.AlterLabel == "Base4by2designXtraNote")
                                     {

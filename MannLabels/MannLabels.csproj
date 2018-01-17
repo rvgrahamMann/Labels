@@ -143,7 +143,7 @@
     <Content Include="Scripts\blueopal\sprite_2x.png" />
     <Content Include="Scripts\blueopal\sprite_kpi.png" />
     <Content Include="Scripts\blueopal\sprite_kpi_2x.png" />
-    <Content Include="Scripts\index.v1.2.js" />
+    <Content Include="Scripts\index.v1.3.js" />
     <EntityDeploy Include="Labels.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Labels.Designer.cs</LastGenOutput>

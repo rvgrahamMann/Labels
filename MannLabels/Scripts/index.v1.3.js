@@ -31,6 +31,15 @@ function GetLists() {
     });
 }
 
+function OneOnly3(sender) {
+    $('.customButtonGroup3 input').each(function () {
+        if (sender !== this) {
+            $(this).removeAttr('checked');
+        }
+    });
+    FillItemsList();
+}
+
 function FillLists(dat) {
     coos.length = 0;
     items.length = 0;
@@ -178,145 +187,290 @@ function FillItemsList() {
         exisGrid.destroy();
         $('#divItemsList').html('');
     }
-
-    $('#divItemsList').kendoGrid({
-        sortable: true,
-        pageable: true,
-        editable: false,
-        filterable: {
-            mode: "row"
-        },
-        columns: [
-            {
-                command: [
-                    {
-                        name: 'print',
-                        text: 'Print...',
-                        click: function (e) {
-                            var tr = $(e.target).closest("tr");
-                            var data = this.dataItem(tr);
-                            PrintLabel(data);
+    var itemView = $('.customButtonGroup3').find('input[type=checkbox]:checked').get(0).value;
+    if (itemView === "paged") {
+        $('#divItemsList').kendoGrid({
+            sortable: true,
+            pageable: true,
+            editable: false,
+            filterable: {
+                mode: "row"
+            },
+            columns: [
+                {
+                    command: [
+                        {
+                            name: 'print',
+                            text: 'Print...',
+                            click: function (e) {
+                                var tr = $(e.target).closest("tr");
+                                var data = this.dataItem(tr);
+                                PrintLabel(data);
+                            }
                         }
-                    }
-                ],
-                width: 45
-            },
-            {
-                field: 'ItemFull',
-                title: 'Item (filter exact)',
-                width: 85,
-                attributes: {
-                    style: "text-align: center;"
+                    ],
+                    width: 45
                 },
-                filterable: {
-                    extra: false,
-                    cell: {
-                        operator: 'eq',
-                        showOperators: false,
-                        dataSource: new kendo.data.DataSource({
-                            data: []
-                        }),
-                    }
-                }
-            },
-            {
-                field: 'ItemDesc',
-                title: 'Description (filter contains)',
-                width: 180,
-                filterable: {
-                    extra: false,
-                    cell: {
-                        operator: 'contains',
-                        showOperators: false
-                    }
-                }
-            },
-            {
-                field: 'BrandAbbrv',
-                title: 'Brand',
-                values: brandings,
-                width: 50,
-                attributes: {
-                    style: "text-align: center;"
-                },
-                filterable: {
-                    extra: false,
-                    cell: {
-                        template: function (options) {
-                            options.element.kendoDropDownList({
-                                autoBind: false,
-                                dataTextField: "text",
-                                dataValueField: "value",
-                                valuePrimitive: true,
-                                dataSource: brandings,
-                                optionLabel: 'All',
-                                height: 700
-                            });
-                        },
-                        operator: 'eq',
-                        showOperators: false,
-                        inputWidth: 70
-                    }
-                },
-                editable: false
-            },
-            {
-                field: 'BrandFull',
-                title: 'Brand Full',
-                width: 150,
-                filterable: false
-            },
-            {
-                field: 'GTIN',
-                title: 'Bar Code',
-                width: 80,
-                filterable: false
-            },
-            {
-                field: 'WalmartCode',
-                title: 'Walmart Code',
-                width: 80,
-                filterable: false
-            },
-        ],
-        dataSource: {
-            serverSorting: true,
-            serverPaging: true,
-            serverFiltering: true,
-            pageSize: 16,
-            schema: {
-                data: 'Data',
-                total: 'Total',
-                errors: 'error',
-                model: {
-                    id: "ItemFull",
-                    fields: {
-                        ItemFull: { type: 'string' },
-                        ItemDesc: { type: 'string' },
-                        BrandAbbrv: { type: 'string' },
-                        BrandFull: { type: 'string' },
-                        GTIN: { type: 'string' },
-                        WalmartCode: { type: 'string' }
-                    }
-                }
-            },
-            transport: {
-                read: {
-                    url: "api/Labels/GetJdeItemsList/",
-                    contentType: "application/json; charset=utf-8",
-                    type: "GET",
-                    complete: function(e) {
-                        if (e.status !== 200) {
-                            alert(e.responseJSON.Message);
+                {
+                    field: 'ItemFull',
+                    title: 'Item (filter exact)',
+                    width: 85,
+                    attributes: {
+                        style: "text-align: center;"
+                    },
+                    filterable: {
+                        extra: false,
+                        cell: {
+                            operator: 'eq',
+                            showOperators: false,
+                            dataSource: new kendo.data.DataSource({
+                                data: []
+                            }),
                         }
                     }
                 },
-                parameterMap: function (data, operation) {
-                    return JSON.stringify(data);
+                {
+                    field: 'ItemDesc',
+                    title: 'Description (filter contains)',
+                    width: 180,
+                    filterable: {
+                        extra: false,
+                        cell: {
+                            operator: 'contains',
+                            showOperators: false
+                        }
+                    }
+                },
+                {
+                    field: 'BrandAbbrv',
+                    title: 'Brand',
+                    values: brandings,
+                    width: 50,
+                    attributes: {
+                        style: "text-align: center;"
+                    },
+                    filterable: {
+                        extra: false,
+                        cell: {
+                            template: function (options) {
+                                options.element.kendoDropDownList({
+                                    autoBind: false,
+                                    dataTextField: "text",
+                                    dataValueField: "value",
+                                    valuePrimitive: true,
+                                    dataSource: brandings,
+                                    optionLabel: 'All',
+                                    height: 700
+                                });
+                            },
+                            operator: 'eq',
+                            showOperators: false,
+                            inputWidth: 70
+                        }
+                    },
+                    editable: false
+                },
+                {
+                    field: 'BrandFull',
+                    title: 'Brand Full',
+                    width: 150,
+                    filterable: false
+                },
+                {
+                    field: 'GTIN',
+                    title: 'Bar Code',
+                    width: 80,
+                    filterable: false
+                },
+                {
+                    field: 'WalmartCode',
+                    title: 'Walmart Code',
+                    width: 80,
+                    filterable: false
+                },
+            ],
+            dataSource: {
+                serverSorting: true,
+                serverPaging: true,
+                serverFiltering: true,
+                pageSize: 16,
+                schema: {
+                    data: 'Data',
+                    total: 'Total',
+                    errors: 'error',
+                    model: {
+                        id: "ItemFull",
+                        fields: {
+                            ItemFull: { type: 'string' },
+                            ItemDesc: { type: 'string' },
+                            BrandAbbrv: { type: 'string' },
+                            BrandFull: { type: 'string' },
+                            GTIN: { type: 'string' },
+                            WalmartCode: { type: 'string' },
+                            UseWMFormat: { type: 'boolean'}
+                        }
+                    }
+                },
+                transport: {
+                    read: {
+                        url: "api/Labels/GetJdeItemsList/",
+                        contentType: "application/json; charset=utf-8",
+                        type: "GET",
+                        complete: function (e) {
+                            if (e.status !== 200) {
+                                alert(e.responseJSON.Message);
+                            }
+                        }
+                    },
+                    parameterMap: function (data, operation) {
+                        return JSON.stringify(data);
+                    }
                 }
             }
-        }
-    });
+        });
+    }
+    else {
+        kendo.ui.progress($('#divItemsList'), true);
+        $('#divItemsList').kendoGrid({
+            sortable: true,
+            pageable: true,
+            editable: false,
+            filterable: {
+                mode: "row"
+            },
+            columns: [
+                {
+                    command: [
+                        {
+                            name: 'print',
+                            text: 'Print...',
+                            click: function (e) {
+                                var tr = $(e.target).closest("tr");
+                                var data = this.dataItem(tr);
+                                PrintLabel(data);
+                            }
+                        }
+                    ],
+                    width: 45
+                },
+                {
+                    field: 'ItemFull',
+                    title: 'Item (filter exact)',
+                    width: 85,
+                    attributes: {
+                        style: "text-align: center;"
+                    },
+                    filterable: {
+                        extra: false,
+                        cell: {
+                            operator: 'eq',
+                            showOperators: false,
+                            dataSource: new kendo.data.DataSource({
+                                data: []
+                            }),
+                        }
+                    }
+                },
+                {
+                    field: 'ItemDesc',
+                    title: 'Description (filter contains)',
+                    width: 180,
+                    filterable: {
+                        extra: false,
+                        cell: {
+                            operator: 'contains',
+                            showOperators: false
+                        }
+                    }
+                },
+                {
+                    field: 'BrandAbbrv',
+                    title: 'Brand',
+                    values: brandings,
+                    width: 50,
+                    attributes: {
+                        style: "text-align: center;"
+                    },
+                    filterable: {
+                        extra: false,
+                        cell: {
+                            template: function (options) {
+                                options.element.kendoDropDownList({
+                                    autoBind: false,
+                                    dataTextField: "text",
+                                    dataValueField: "value",
+                                    valuePrimitive: true,
+                                    dataSource: brandings,
+                                    optionLabel: 'All',
+                                    height: 700
+                                });
+                            },
+                            operator: 'eq',
+                            showOperators: false,
+                            inputWidth: 70
+                        }
+                    },
+                    editable: false
+                },
+                {
+                    field: 'BrandFull',
+                    title: 'Brand Full',
+                    width: 150,
+                    filterable: false
+                },
+                {
+                    field: 'GTIN',
+                    title: 'Bar Code',
+                    width: 80,
+                    filterable: false
+                },
+                {
+                    field: 'WalmartCode',
+                    title: 'Walmart Code',
+                    width: 80,
+                    filterable: false
+                },
+            ],
+            dataSource: {
+                serverSorting: false,
+                serverPaging: false,
+                serverFiltering: false,
+                schema: {
+                    data: 'Data',
+                    total: 'Total',
+                    errors: 'error',
+                    model: {
+                        id: "ItemFull",
+                        fields: {
+                            ItemFull: { type: 'string' },
+                            ItemDesc: { type: 'string' },
+                            BrandAbbrv: { type: 'string' },
+                            BrandFull: { type: 'string' },
+                            GTIN: { type: 'string' },
+                            WalmartCode: { type: 'string' },
+                            UseWMFormat: { type: 'boolean' }
+                        }
+                    }
+                },
+                transport: {
+                    read: {
+                        url: "api/Labels/GetJdeItemsList/",
+                        contentType: "application/json; charset=utf-8",
+                        type: "GET",
+                        complete: function (e) {
+                            if (e.status !== 200) {
+                                alert(e.responseJSON.Message);
+                            }
+                            kendo.ui.progress($('#divItemsList'), false);
+                        }
+                    },
+                    parameterMap: function (data, operation) {
+                        return JSON.stringify(data);
+                    }
+                }
+            }
+        });
+    }
 
     $("#divItemsList .k-grid-header").css({
         "padding-right": "0px"
@@ -361,7 +515,7 @@ function SendPrintJob(data, srcAddr, dPick, dCoo, dQty, shif, selLang, crewNum, 
 }
 
 function PrintLabel(passedData) {
-    var isWM = passedData['BrandAbbrv'] === 'WM';
+    var isWM = passedData['BrandAbbrv'] === 'WM' || passedData['UseWMFormat'] === true;
     var tomorrow = new Date();
     //tomorrow.setDate(tomorrow.getDate() + 1);
     var kendoWindow = $('<div id="divPrintdetail"></div>')

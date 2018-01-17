@@ -196,7 +196,7 @@ body a:link, body a:visited
 .divTableContent
 {
     position: relative;
-    top: 10px;
+    top: 20px;
     margin-left: 10px;
     margin-right: 45px;
 }

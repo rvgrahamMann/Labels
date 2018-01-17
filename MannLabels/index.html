@@ -11,7 +11,7 @@
     <script src="Scripts/jquery-1.11.3.min.js"></script>
     <script src="Scripts/kendo.web.js"></script>
     <script src="Scripts/jquery.alphanum.js"></script>
-    <script src="Scripts/index.v1.2.js"></script>
+    <script src="Scripts/index.v1.3.js"></script>
     <style>
         .k-grid tbody tr td {
             cursor: default;
@@ -61,6 +61,31 @@
             text-align: left;
             height: 36px;
         }
+        .customButtonGroup3 .k-checkbox-label:before,
+        .customButtonGroup3 .k-checkbox-label:after {
+            display: none;
+        }
+        .customButtonGroup3 .k-checkbox-label {
+            color: #fff;
+            border-color: #363940;
+            background-color: #4f4f4f;
+            display: inline-block;
+            padding: 2px 7px 2px;
+            line-height: 1.72em;
+            float: left;
+        }
+        .customButtonGroup3 .k-checkbox-label:first-of-type {
+            border-radius: 4px 0 0 4px;
+        }
+        .customButtonGroup3 .k-checkbox-label:last-of-type {
+            border-radius: 0 4px 4px 0;
+        }
+        .customButtonGroup3 .k-checkbox:checked + .k-checkbox-label {
+            color: #fff;
+            background-color: #10c4b2;
+            border-color: #10c4b2;
+        }
+
         /*#tblPrevLabelDetail2 td{
             border: 1px solid black;
         }*/
@@ -193,6 +218,13 @@
             <!-- style="border: 1px solid red;"-->
             <!--Labels:
             <input type="button" id="cmPrintTest" class="k-button" value="Print test" onclick="TestPrint()" />-->
+            <div class="customButtonGroup3">
+                <input type="checkbox" id="rbHansen" checked="checked" value="paged" class="k-checkbox" onchange="OneOnly3(this)" />
+                <label class="k-checkbox-label" for="rbHansen">Paged</label>
+                <input type="checkbox" id="rbFLF" value="nonpaged" class="k-checkbox" onchange="OneOnly3(this)" />
+                <label class="k-checkbox-label" for="rbFLF">Non-Paged</label>
+            </div>
+            <br />
             <div id="divItemsList"></div>
         </div>
 
